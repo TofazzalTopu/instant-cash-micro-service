@@ -1,0 +1,94 @@
+server:
+  port: 8080
+
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    hostname: localhost
+
+
+spring:
+  application:
+    name: API-GATEWAY-SERVICE
+    sleuth:
+      tracing:
+        enabled: true
+      sampler:
+        probability: 1.0 # Always sample traces for development/testing
+  cloud:
+    discovery:
+      enabled: true
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+#          lowerCaseServiceId: true
+
+#      routes:
+#        - id: INSTANT_CASH_API_SERVICE
+#          uri: lb://INSTANT_CASH_API_SERVICE
+#          predicates:
+#            - Path=/apiservice/**
+#          filters:
+#            - name: CircuitBreaker
+#              args:
+#                name: INSTANT_CASH_API_SERVICE
+#                fallbackuri: forward:/instantCashApiServiceFallBackMethod
+#        - id: DEPARTMENT_SERVICE
+#          uri: lb://DEPARTMENT_SERVICE
+#          predicates:
+#            - Path=/departments/**
+#          filters:
+#            - name: CircuitBreaker
+#              args:
+#                name: DEPARTMENT_SERVICE
+#                fallbackuri: forward:/departmentServiceFallBackMethod
+#        - id: USER-SERVICE
+#          uri: lb://USER-SERVICE
+#          predicates:
+#            - Path=/users/**
+#          filters:
+#            - name: CircuitBreaker
+#              args:
+#                name: USER-SERVICE
+#                fallbackuri: forward:/userServiceFallBack
+#        - id : AUTHENTICATION-SERVICE
+#          uri: lb://AUTHENTICATION-SERVICE
+#          predicates:
+#            - Path=/login/
+      main:
+        web-application-type: reactive
+
+
+
+hystrix:
+  command:
+    fallbackcmd:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 15000
+
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: hystrix.stream
+
+authentication:
+  enabled: false
+
+logging:
+  level:
+    root: INFO
+    #For sleuth distributed tracing
+    org.springframework.cloud.sleuth: DEBUG
+    #For gateway routes
+#    org.springframework.cloud.gateway: DEBUG
+  file: E:\Tofazzal\Practice\RemittanceProcessingSystems\log\remittance-microservice.log
+jwt:
+  secret: VHKJMNnbfhbsjkdbVJHVkhbJBKJBsmfnbngygiyguFYVHJbkjnjnsjdnlkfn

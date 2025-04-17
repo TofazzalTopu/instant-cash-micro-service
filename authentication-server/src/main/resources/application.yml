@@ -1,0 +1,100 @@
+server:
+  port: 8087
+
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    hostname: localhost
+    prefer-ip-address: true
+
+
+spring:
+  application:
+    name: AUTHENTICATION-SERVICE
+#    zipkin:
+#      base-url: http://127.0.0.1:9411/zipkin/
+  cloud:
+    discovery:
+      enabled: true
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lowerCaseServiceId: true
+#    loadbalancer:
+#      ribbon:
+#        enabled: false
+  #    loadbalancer:
+  #      zone: default
+
+
+
+  datasource:
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password: password
+    driverClassName: org.h2.Driver
+    hikari:
+      minimum-idle: 5
+      auto-commit: true
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      maximum-pool-size: 20
+      connection-timeout: 30000
+      pool-name: HikariPool_INSTANT_CASH_API_SERVICE
+      data-source-properties:
+        cachePrepStmts: true
+        prepStmtCacheSize: 250
+        prepStmtCacheSqlLimit: 2048
+        useServerPrepStmts: true
+        useLocalSessionState: true
+  jpa:
+    spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
+
+
+#Actuator configuration
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+
+
+logging:
+  level:
+    root: INFO
+    #For sleuth distributed tracing
+    org.springframework.cloud.sleuth: DEBUG
+    #For gateway routes
+    org.springframework.cloud.gateway: DEBUG
+    #For loadbalancer
+    org.springframework.cloud.loadbalancer: DEBUG
+    reactor.netty: INFO
+    #For SQL
+#    org.hibernate.SQL: DEBUG
+#    org.hibernate.type.descriptor.sql: TRACE
+
+#logging:
+#  level:
+#    org:
+#    hibernate:
+#      SQL: debug
+#      type: trace
+#    com:
+#    info:
+#      api:
+#      controller: debug
+#      service: debug
+#      repository: debug
+
+
+
+jwt:
+  secret=Zx5t7VwYz4A6C9D3E1F2H7J0M4Q9S1U3X2V8Y6Z4B0F2N7T1R8P3L6K5A3E0Q9W2:

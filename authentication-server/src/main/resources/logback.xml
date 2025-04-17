@@ -1,0 +1,28 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<configuration>
+   <timestamp key="timestamp" datePattern="yyyy-MM-dd"/>
+   <appender name = "STDOUT" class = "ch.qos.logback.core.ConsoleAppender">
+      <encoder>
+         <pattern>[%d{yyyy-MM-dd'T'HH:mm:ss.sss'Z'}] [%C] [%t] [%L] [%-5p] %m%n</pattern>
+      </encoder>
+   </appender>
+
+   <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+      <file>E:/Tofazzal/Practice/micro-service-log/microservice.log</file>
+      <prudent>true</prudent>
+      <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+         <fileNamePattern>./log/%d{yyyy-MM-dd}-microservice.log</fileNamePattern>
+         <maxHistory>30</maxHistory>
+         <totalSizeCap>3GB</totalSizeCap>
+      </rollingPolicy>
+
+      <encoder>
+         <pattern>[%d{yyyy-MM-dd'T'HH:mm:ss.sss'Z'}] [%C] [%t] [%L] [%-5p] %m%n</pattern>
+      </encoder>
+   </appender>
+
+   <root level = "INFO">
+      <appender-ref ref = "FILE"/>
+      <appender-ref ref = "STDOUT"/>
+   </root>
+</configuration>
