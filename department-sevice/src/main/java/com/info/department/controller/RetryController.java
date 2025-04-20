@@ -1,16 +1,20 @@
 package com.info.department.controller;
 
 
+import com.info.department.annotation.APIDocumentation;
+import com.info.department.constant.AppConstants;
 import com.info.department.service.RetryService;
 import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import io.github.resilience4j.retry.annotation.Retry;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin
 @RestController
-@RequestMapping(value = "/departments")
+@RequestMapping(AppConstants.API_ENDPOINT + AppConstants.DEPARTMENT)
+@Tag(name = "RetryController", description = "APIs for Retry Operations")
 public class RetryController {
 
     @Autowired
@@ -18,12 +22,14 @@ public class RetryController {
     private int attempt = 1;
 
     //Approach -1
+    @APIDocumentation
     @GetMapping("/retry")
     public ResponseEntity<?> retry() {
         return ResponseEntity.ok().body(retryService.retryProcessRequest());
     }
 
     //Approach -2
+    @APIDocumentation
     @GetMapping("/retryRequest")
     @Retry(name = "retryExample", fallbackMethod = "myApiRetryFallback")
     public ResponseEntity<?> retryRequest() {
