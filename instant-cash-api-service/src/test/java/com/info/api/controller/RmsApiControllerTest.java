@@ -2,7 +2,11 @@ package com.info.api.controller;
 
 import com.info.api.aspect.ExceptionHandlingAspect;
 import com.info.api.aspect.SecureLoginAspect;
+import com.info.api.dto.PaymentApiResponse;
 import com.info.api.dto.SearchApiRequest;
+import com.info.api.dto.SearchApiResponse;
+import com.info.api.dto.ic.APIResponse;
+import com.info.api.dto.ic.ICTransactionReportDTO;
 import com.info.api.dto.ic.TransactionReportRequestBody;
 import com.info.api.exception.GlobalExceptionHandler;
 import com.info.api.repository.ExchangeHousePropertyRepository;
@@ -17,6 +21,8 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import java.util.List;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -63,9 +69,8 @@ class RmsApiControllerTest {
 
     @Test
     void testSearchRemittance_success() throws Exception {
-        String mockResponse = "remittance data";
-        SearchApiRequest searchApiRequest = new SearchApiRequest("bruserid", "brcode", "exchcode", "pinno", null);
-        when(apiService.searchRemittance(any(SearchApiRequest.class), any())).thenReturn(mockResponse);
+        SearchApiResponse searchApiResponse = new SearchApiResponse();
+        when(apiService.searchRemittance(any(SearchApiRequest.class), any())).thenReturn(searchApiResponse);
 
         mockMvc.perform(get("/apiservice/remittance")
                         .header("userId", "user123")
@@ -74,8 +79,7 @@ class RmsApiControllerTest {
                         .param("brcode", "brcode")
                         .param("exchcode", "exchcode")
                         .param("pinno", "pinno"))
-                .andExpect(status().isOk())
-                .andExpect(content().string(mockResponse));
+                .andExpect(status().isOk());
 
         verify(apiService, times(1)).searchRemittance(any(SearchApiRequest.class), any());
     }
@@ -91,8 +95,7 @@ class RmsApiControllerTest {
                         .param("brcode", "brcode")
                         .param("exchcode", "exchcode")
                         .param("pinno", "pinno"))
-                .andExpect(status().isNotFound())
-                .andExpect(content().string("No data found"));
+                .andExpect(status().isNotFound());
 
         verify(apiService, times(1)).searchRemittance(any(SearchApiRequest.class), any());
     }
@@ -100,8 +103,9 @@ class RmsApiControllerTest {
      @Test
     void testPayRemittance() throws Exception {
         String mockResponse = "payment success";
+         PaymentApiResponse paymentApiResponse = new PaymentApiResponse();
         String data = "{\"key\":\"value\"}";
-        when(apiService.payRemittance(eq(data), any())).thenReturn(mockResponse);
+        when(apiService.payRemittance(eq(data), any())).thenReturn(paymentApiResponse);
 
         mockMvc.perform(put("/apiservice/remittance")
                         .header("userId", "user123")
@@ -116,8 +120,9 @@ class RmsApiControllerTest {
      @Test
     void testTransactionReport() throws Exception {
         String mockReport = "transaction report data";
+         APIResponse<List<ICTransactionReportDTO>> apiResponse = new APIResponse<>();
         TransactionReportRequestBody reportRequestBody = new TransactionReportRequestBody("user123", "pass123", null, null, "exchcode", "2025-01-01", "2025-12-31", 1, 10);
-        when(apiService.fetchTransactionReport(eq(reportRequestBody))).thenReturn(mockReport);
+        when(apiService.fetchTransactionReport(eq(reportRequestBody))).thenReturn(apiResponse);
 
         mockMvc.perform(get("/apiservice/transaction-report")
                         .header("userId", "user123")

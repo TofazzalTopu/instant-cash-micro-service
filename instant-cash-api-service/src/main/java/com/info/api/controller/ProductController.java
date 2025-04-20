@@ -1,10 +1,14 @@
 package com.info.api.controller;
 
+import com.info.api.annotation.APIDocumentation;
+import com.info.api.constants.Constants;
 import com.info.api.dto.product.PaginatedResponse;
 import com.info.api.dto.product.ProductDTO;
 import com.info.api.entity.Product;
 import com.info.api.service.product.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -19,17 +23,20 @@ import javax.validation.constraints.Min;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@RestController
-@RequestMapping("/api/products")
 //@Validated
+@RestController
+@RequiredArgsConstructor
+@RequestMapping(Constants.PRODUCTS_API_ENDPOINT)
+@Tag(name = "RMS API", description = "APIs for handling remittance operations")
 public class ProductController {
-    @Autowired
-    private ProductService productService;
+    private final ProductService productService;
 
     private static final int MAX_PAGE_SIZE = 100;
 
 
     @GetMapping
+    @APIDocumentation
+    @Operation(description = "List of products with pagination and sorting.")
     public ResponseEntity<PaginatedResponse<ProductDTO>> getProducts(
             @RequestParam(defaultValue = "1") @Min(1) int page,
             @RequestParam(defaultValue = "10") @Min(1) int size,
@@ -48,12 +55,16 @@ public class ProductController {
         return ResponseEntity.ok(response);
     }
 
+    @APIDocumentation
     @GetMapping("/process")
-    private ResponseEntity<?> process(){
+    @Operation(description = "Start product operation.")
+    private ResponseEntity<?> process() {
         return ResponseEntity.ok(productService.executorServiceExample());
     }
 
+    @APIDocumentation
     @GetMapping("/list")
+    @Operation(description = "List of products.")
     public List<Product> getAllProducts() {
         return productService.saveProductList();
     }

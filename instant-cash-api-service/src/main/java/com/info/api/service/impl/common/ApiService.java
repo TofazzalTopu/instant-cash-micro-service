@@ -43,7 +43,7 @@ public class ApiService {
     @Value("${INSTANT_CASH_API_USER_PASSWORD}")
     String icPassword;
 
-    public String searchRemittance(SearchApiRequest apiRequest, HttpServletRequest request) {
+    public SearchApiResponse searchRemittance(SearchApiRequest apiRequest, HttpServletRequest request) {
         logger.info("Enter into ApiService: searchRemittance()");
         SearchApiResponse searchApiResponse = new SearchApiResponse();
         try {
@@ -52,7 +52,7 @@ public class ApiService {
             } else {
                 ICExchangePropertyDTO icExchangeProperties = ApiUtil.getICExchangeProperties();
                 if (icExchangeProperties.getExchangeCode().equals(apiRequest.getExchcode())) {
-                    searchApiResponse = icPaymentReceiveService.paymentReceive(icExchangeProperties, apiRequest);
+                    return icPaymentReceiveService.paymentReceive(icExchangeProperties, apiRequest);
                 } else {
 //                    searchApiResponse = riaCashPaymentService.searchRemittance(apiRequest);
                 }
@@ -62,10 +62,10 @@ public class ApiService {
             searchApiResponse.setErrorMessage(e.getMessage());
         }
 
-        return convertObjectToString(searchApiResponse);
+        return searchApiResponse;
     }
 
-    public String payRemittance(String data, HttpServletRequest request) {
+    public PaymentApiResponse payRemittance(String data, HttpServletRequest request) {
         logger.info("RequestBody from CBS =================> {} ", data);
         PaymentApiResponse paymentApiResponse = new PaymentApiResponse();
 
@@ -83,32 +83,30 @@ public class ApiService {
             }
         }
         if (logger.isInfoEnabled()) logger.info("Exit from ApiService: payRemittance().");
-        return convertObjectToString(paymentApiResponse);
+        return paymentApiResponse;
     }
 
-    public String fetchTransactionReport(TransactionReportRequestBody report) {
+    public APIResponse<List<ICTransactionReportDTO>> fetchTransactionReport(TransactionReportRequestBody report) {
         logger.info("Enter into ApiService: payRemittance()");
-        APIResponse<Object> apiResponse = new APIResponse<>();
+        APIResponse<List<ICTransactionReportDTO>> apiResponse = new APIResponse<>();
         logger.info("\nRequestBody from CBS =================> \n{} ", report);
-        if (!isValidICTransactionReportBody(report)) return convertObjectToString(mapInvalidParameters(apiResponse));
+        if (!isValidICTransactionReportBody(report)) return mapInvalidParameters(apiResponse);
         ICExchangePropertyDTO icExchangeProperties = ApiUtil.getICExchangeProperties();
         if (icExchangeProperties.getExchangeCode().equals(report.getExchcode())) {
             icExchangeProperties.setPassword(generateBase64Hash(icUserId, icPassword));
-            APIResponse<List<ICTransactionReportDTO>> response = icTransactionReportService.fetchICTransactionReport(icExchangeProperties, report);
-            apiResponse.setData(convertObjectToString(response.getData()));
+            return icTransactionReportService.fetchICTransactionReport(icExchangeProperties, report);
         }
 
-        return convertObjectToString(apiResponse);
+        return apiResponse;
     }
 
-    public APIResponse<String> getPaymentStatus(String exchcode, String reference) {
-        APIResponse<String> apiResponse = new APIResponse<>();
+    public APIResponse<ICPaymentStatusDTO> getPaymentStatus(String exchcode, String reference) {
+        APIResponse<ICPaymentStatusDTO> apiResponse = new APIResponse<>();
         apiResponse.setApiStatus(Constants.API_STATUS_VALID);
         ICExchangePropertyDTO icExchangeProperties = ApiUtil.getICExchangeProperties();
         if (icExchangeProperties.getExchangeCode().equals(exchcode)) {
             icExchangeProperties.setPassword(generateBase64Hash(icUserId, icPassword));
-            APIResponse<ICPaymentStatusDTO> response = icRetrievePaymentStatusService.getPaymentStatus(icExchangeProperties, reference);
-            apiResponse.setData(convertObjectToString(response.getData()));
+            return icRetrievePaymentStatusService.getPaymentStatus(icExchangeProperties, reference);
         }
         return apiResponse;
     }
