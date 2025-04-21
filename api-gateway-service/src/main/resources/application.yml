@@ -83,12 +83,12 @@ authentication:
   enabled: false
 
 logging:
+#  file: E:\Tofazzal\log\remittance-microservice.log
   level:
     root: INFO
     #For sleuth distributed tracing
     org.springframework.cloud.sleuth: DEBUG
     #For gateway routes
 #    org.springframework.cloud.gateway: DEBUG
-  file: E:\Tofazzal\Practice\RemittanceProcessingSystems\log\remittance-microservice.log
 jwt:
   secret: VHKJMNnbfhbsjkdbVJHVkhbJBKJBsmfnbngygiyguFYVHJbkjnjnsjdnlkfn

@@ -5,10 +5,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.info.api.constants.Constants;
 import com.info.api.dto.PaymentApiRequest;
 import com.info.api.dto.PaymentApiResponse;
+import com.info.api.dto.ic.APIResponse;
 import com.info.api.dto.ic.LoginErrorResponse;
 import com.info.api.dto.ic.TransactionReportRequestBody;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 
 import java.util.Arrays;
 import java.util.List;
@@ -121,8 +123,15 @@ public class ParseUtil {
         return paymentApiResponse;
     }
 
-    public static LoginErrorResponse unAuthorized() {
-        return LoginErrorResponse.builder().payoutStatus(null).apiStatus(Constants.API_STATUS_INVALID).errorMessage(Constants.UNAUTHORIZED_ACCESS).build();
+    public static LoginErrorResponse unAuthorizedAccess() {
+        return LoginErrorResponse.builder().payoutStatus(null).apiStatus(HttpStatus.UNAUTHORIZED.name()).errorMessage(Constants.UNAUTHORIZED_ACCESS).build();
+    }
+    public static APIResponse<String> unAuthorized() {
+        APIResponse<String> apiResponse = new APIResponse<>();
+        apiResponse.setApiStatus(HttpStatus.UNAUTHORIZED.name());
+        apiResponse.setErrorMessage(Constants.UNAUTHORIZED_ACCESS);
+        apiResponse.setData(Constants.UNAUTHORIZED_ACCESS);
+        return apiResponse;
     }
 
 }

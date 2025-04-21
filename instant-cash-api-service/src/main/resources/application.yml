@@ -14,7 +14,7 @@ eureka:
 
 spring:
   application:
-    name: INSTANT_CASH_API_SERVICE
+    name: INSTANT-CASH-API-SERVICE
     sleuth:
       tracing:
         enabled: true
@@ -77,6 +77,12 @@ spring:
           use_second_level_cache: false
 #          region.factory_class: org.hibernate.cache.jcache.JCacheRegionFactory
 
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
 
   redis:
     host: localhost
@@ -103,6 +109,7 @@ management:
       show-details: always
 
 logging:
+#  file: E:\Tofazzal\log\remittance-microservice.log
   level:
     root: INFO
     #For sleuth distributed tracing
@@ -150,5 +157,5 @@ INSTANT_CASH_API_USER_PASSWORD: CGE982
   #Scheduler on/off
 IS_INSTANT_CASH_API_SCHEDULER_ENABLED: true
 IS_RIA_API_SCHEDULER_ENABLED: true
-API_SCHEDULER_INTERVAL: 120000
+API_SCHEDULER_INTERVAL: 10000
 

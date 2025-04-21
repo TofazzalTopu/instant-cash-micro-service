@@ -1,6 +1,7 @@
 package com.info.api.aspect;
 
 import com.info.api.constants.Constants;
+import com.info.api.dto.ic.APIResponse;
 import com.info.api.service.common.CommonService;
 import com.info.api.util.ParseUtil;
 import lombok.RequiredArgsConstructor;
@@ -33,13 +34,13 @@ public class SecureLoginAspect {
     }
 
     @Around("validateUserCredentialsPointcut()")
-    public ResponseEntity<String> validateLoginCredentials(ProceedingJoinPoint joinPoint) throws Throwable {
+    public ResponseEntity<APIResponse<?>> validateLoginCredentials(ProceedingJoinPoint joinPoint) throws Throwable {
         String userId = request.getHeader("userId"), password = request.getHeader("password");
         if (isNullOrEmpty(userId, password) || !commonService.isAuthorizedRequest(userId, password)) {
             logger.error(Constants.UNAUTHORIZED_ACCESS + " ==> userId: {}, password: {}", userId, password);
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(convertObjectToString(ParseUtil.unAuthorized()));
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ParseUtil.unAuthorized());
         }
-        return (ResponseEntity<String>) joinPoint.proceed();
+        return (ResponseEntity<APIResponse<?>>) joinPoint.proceed();
     }
 
 

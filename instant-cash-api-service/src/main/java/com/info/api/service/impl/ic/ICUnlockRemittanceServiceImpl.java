@@ -9,6 +9,7 @@ import com.info.api.entity.ApiTrace;
 import com.info.api.entity.RemittanceData;
 import com.info.api.service.common.ApiTraceService;
 import com.info.api.service.common.RemittanceDataService;
+import com.info.api.service.feignclient.branch.BranchServiceFeignClient;
 import com.info.api.service.ic.ICUnlockRemittanceService;
 import com.info.api.util.ApiUtil;
 import lombok.RequiredArgsConstructor;
@@ -43,6 +44,7 @@ public class ICUnlockRemittanceServiceImpl implements ICUnlockRemittanceService 
     private final RestTemplate restTemplate;
     private final ApiTraceService apiTraceService;
     private final RemittanceDataService remittanceDataService;
+    private final BranchServiceFeignClient branchServiceFeignClient;
 
     @Value("${INSTANT_CASH_API_USER_ID}")
     String icUserId;

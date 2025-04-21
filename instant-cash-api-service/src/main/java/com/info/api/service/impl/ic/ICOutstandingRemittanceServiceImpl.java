@@ -1,6 +1,7 @@
 package com.info.api.service.impl.ic;
 
 import com.info.api.constants.Constants;
+import com.info.api.dto.RoutingNumberDTO;
 import com.info.api.dto.ic.ICExchangePropertyDTO;
 import com.info.api.dto.ic.ICOutstandingRemittanceDTO;
 import com.info.api.dto.ic.ICOutstandingTransactionDTO;
@@ -9,7 +10,10 @@ import com.info.api.entity.Branch;
 import com.info.api.entity.MbkBrn;
 import com.info.api.entity.RemittanceData;
 import com.info.api.mapper.ICOutstandingRemittanceMapper;
-import com.info.api.service.common.*;
+import com.info.api.service.common.ApiTraceService;
+import com.info.api.service.common.RemittanceDataService;
+import com.info.api.service.common.RemittanceProcessService;
+import com.info.api.service.feignclient.branch.BranchServiceFeignClient;
 import com.info.api.service.ic.ICOutstandingRemittanceService;
 import com.info.api.util.ApiUtil;
 import com.info.api.util.RemittanceValidator;
@@ -37,12 +41,11 @@ public class ICOutstandingRemittanceServiceImpl implements ICOutstandingRemittan
     public static final Logger logger = LoggerFactory.getLogger(ICOutstandingRemittanceServiceImpl.class);
 
     private final RestTemplate restTemplate;
-    private final BranchService branchService;
-    private final MbkBrnService mbkBrnService;
     private final ApiTraceService apiTraceService;
     private final RemittanceDataService remittanceDataService;
-    private final RemittanceProcessService remittanceProcessService;
     private final ICOutstandingRemittanceMapper icRemittanceMapper;
+    private final BranchServiceFeignClient branchServiceFeignClient;
+    private final RemittanceProcessService remittanceProcessService;
 
     @Override
     public List<RemittanceData> fetchICOutstandingRemittance(ICExchangePropertyDTO icDTO) {
@@ -79,19 +82,17 @@ public class ICOutstandingRemittanceServiceImpl implements ICOutstandingRemittan
     }
 
     private List<RemittanceData> prepareAndProcessOutstandingRemittance(List<ICOutstandingTransactionDTO> transactionDTOArrayList, String exchangeCode, ApiTrace trace) {
-        logger.info("\ntransactionDTOArrayList: {} ", transactionDTOArrayList);
+        logger.info("\ntransactionDTOArrayList count: {} ", transactionDTOArrayList.size());
         List<String> branchRoutings = RemittanceValidator.getBranchRoutingNumbers(transactionDTOArrayList);
         List<Integer> routingNumbers = branchRoutings.stream().map(Integer::valueOf).collect(Collectors.toList());
-        logger.info("branchRoutings: {} ", branchRoutings);
 
-        Map<Integer, Branch> branchMap = branchService.findAllByRoutingNumber(routingNumbers).stream().distinct().collect(Collectors.toMap(Branch::getRoutingNumber, Function.identity()));
-        Map<String, MbkBrn> mbkBrnMap = mbkBrnService.findAllByMbkbrnKeyBranchRoutingIn(branchRoutings).stream().distinct().collect(Collectors.toMap(m -> m.getMbkbrnKey().getBranchRouting(), Function.identity(), (existing, replacement) -> existing));
-        logger.info("branchMap: {} ", branchMap);
-        logger.info("mbkBrnMap: {} ", mbkBrnMap);
+        RoutingNumberDTO<String> routingNumberDTO = new RoutingNumberDTO<>(branchRoutings);
+        RoutingNumberDTO<Integer> routingNumber = new RoutingNumberDTO<>(routingNumbers);
+        Map<Integer, Branch> branchMap = branchServiceFeignClient.findAllByRoutingNumber(routingNumberDTO).stream().distinct().collect(Collectors.toMap(Branch::getRoutingNumber, Function.identity()));
+        Map<String, MbkBrn> mbkBrnMap = branchServiceFeignClient.findAllMbkbrnByBranchRouting(routingNumber).stream().distinct().collect(Collectors.toMap(m -> m.getMbkbrnKey().getBranchRouting(), Function.identity(), (existing, replacement) -> existing));
 
         List<String> references = transactionDTOArrayList.stream().map(ICOutstandingTransactionDTO::getReference).distinct().collect(Collectors.toList());
         List<String> existingReferences = getExistingReferences(exchangeCode, references);
-        logger.info("existingReferences: {} ", existingReferences);
 
         List<RemittanceData> remittanceList = transactionDTOArrayList.stream().map(e -> mapDuplicate(e, existingReferences)).map(dto -> icRemittanceMapper.prepareRemittanceData(dto, exchangeCode, trace, branchMap, mbkBrnMap)).collect(Collectors.toList());
 

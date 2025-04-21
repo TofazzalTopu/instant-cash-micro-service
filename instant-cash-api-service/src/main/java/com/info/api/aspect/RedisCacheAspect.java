@@ -16,7 +16,7 @@ import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 @Aspect
-@Component
+//@Component
 public class RedisCacheAspect {
 
     private static final Logger logger = LoggerFactory.getLogger(RedisCacheAspect.class);

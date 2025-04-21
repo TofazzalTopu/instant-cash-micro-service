@@ -37,4 +37,11 @@ public class FallBackMethodController {
       return "Department service is taking longer time then expected. Please try again later";
    }
 
+   @GetMapping(value = "/bankServiceFallBack")
+   public String bankServiceFallBackMethod(){
+      logger.info("\nBank service is taking longer time then expected. Please try again later");
+      return "Bank service is taking longer time then expected. Please try again later";
+   }
+
+
 }

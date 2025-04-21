@@ -30,11 +30,11 @@ public class LoggingAspect {
         String methodName = joinPoint.getSignature().toShortString();
         Object[] args = joinPoint.getArgs();
         String requestStr = args != null ? objectMapper.writeValueAsString(args) : "null";
-        logger.info("📥 Request to: {} with args: {}", methodName, requestStr);
+        logger.info("Request to: {} with args: {}", methodName, requestStr);
 
         Object result = joinPoint.proceed();
         String responseStr = result != null ? objectMapper.writeValueAsString(result) : "null";
-        logger.info("📤 Response from: {},  => {}", methodName, responseStr);
+        logger.info("Response from: {},  => {}", methodName, responseStr);
         return result;
     }
 

@@ -37,17 +37,19 @@ public class GatewayConfig {
 //                                .circuitBreaker(c-> c.setName("").setFallbackUri("forward:/instantCashApiServiceFallBackMethod")))
 //                        .uri("http://localhost:8081"))
 //                        .uri("lb://INSTANT_CASH_API_SERVICE"))
-                .route("INSTANT_CASH_API_SERVICE", r -> r.path("/apiservice/**")
+
+                // Instant Cash API service route
+                .route("INSTANT-CASH-API-SERVICE", r -> r.path("/apiservice/**")
                 .filters(f -> f
                         .rewritePath("/apiservice/(?<segment>.*)", "/apiservice/${segment}")
 //                        .filters(authFilter)
                         .circuitBreaker(c-> c.setName("instant-cash-cb").setFallbackUri("forward:/instantCashApiServiceFallBack")))
                         .uri("http://localhost:8081"))
 
-//                .route("INSTANT_CASH_API_SERVICE", r -> r.path("/first")
+//                .route("INSTANT-CASH-API-SERVICE", r -> r.path("/first")
 //                        .and().method("POST")
 //                        .and().readBody(RemittanceData.class, s -> true).filters(f -> f.filters(requestFilter, authFilter))
-//                        .uri("lb://INSTANT_CASH_API_SERVICE"))
+//                        .uri("lb://INSTANT-CASH-API-SERVICE"))
                 .route("USER-SERVICE", r -> r.path("/users/*")
                         .filters(f -> f.filters(authFilter)
                                 .circuitBreaker(c-> c.setName("").setFallbackUri("forward:/userServiceFallBack")))

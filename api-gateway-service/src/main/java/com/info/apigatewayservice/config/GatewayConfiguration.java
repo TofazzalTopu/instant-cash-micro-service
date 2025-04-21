@@ -12,11 +12,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.server.WebFilter;
 
+import static com.info.apigatewayservice.constants.AppConstants.*;
+
 @Configuration
 @RequiredArgsConstructor
 public class GatewayConfiguration {
 
-    private static final Logger logger = LoggerFactory.getLogger(GatewayConfig.class);
+    private static final Logger logger = LoggerFactory.getLogger(GatewayConfiguration.class);
 
     private final AuthFilter authFilter;
 
@@ -34,17 +36,11 @@ public class GatewayConfiguration {
 //                        .uri("http://localhost:8082"))
                         .uri("lb://DEPARTMENT-SERVICE"))
 
-                // Instant Cash API service route
-                .route("INSTANT_CASH_API_SERVICE", r -> r.path("/apiservice/**")
-                        .filters(f -> f
-                                .rewritePath("/apiservice/(?<segment>.*)", "/apiservice/${segment}")
-//                                .rewritePath("/apiservice/(?<segment>.*)", "/${segment}")
-                                .filters(authFilter)
-                                .circuitBreaker(c -> c
-                                        .setName("instant-cash-cb")
-                                        .setFallbackUri("forward:/instantCashApiServiceFallBack")))
-//                        .uri("lb://INSTANT_CASH_API_SERVICE"))
-                        .uri("http://localhost:8081"))  // adjust the port or use lb://INSTANT_CASH_API_SERVICE
+                .route("INSTANT-CASH-API-SERVICE", r -> r.path(API_ENDPOINT + INSTANT_CASH + "/**")
+                        .filters(f -> f.filters(authFilter)
+                                .circuitBreaker(c -> c.setName("").setFallbackUri("forward:/instantCashApiServiceFallBack")))
+                        .uri("lb://INSTANT-CASH-API-SERVICE"))
+
 
                 // User service route
                 .route("USER-SERVICE", r -> r.path("/users/**")
@@ -53,7 +49,12 @@ public class GatewayConfiguration {
                                 .circuitBreaker(c -> c
                                         .setName("user-cb")
                                         .setFallbackUri("forward:/userServiceFallBack")))
-                        .uri("http://localhost:8083")) // adjust the port or use lb://USER-SERVICE
+                        .uri("lb://USER-SERVICE"))
+
+                .route("BANK-SERVICE", r -> r.path(API_ENDPOINT + BANK + "/**")
+                        .filters(f -> f.filters(authFilter)
+                                .circuitBreaker(c -> c.setName("").setFallbackUri("forward:/bankServiceFallBack")))
+                        .uri("lb://BANK-SERVICE"))
 
                 // Auth login route
                 .route("AUTH-SERVICE", r -> r.path("/login")
