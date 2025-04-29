@@ -1,0 +1,65 @@
+server:
+  port: 8182
+
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    hostname: localhost
+
+spring:
+  application:
+    name: KAFKA-SERVICE
+    sleuth:
+      tracing:
+        enabled: true
+      sampler:
+        probability: 1.0 # Always sample traces for development/testing
+
+  #remote-fields: headers to propagate across services
+  #correlation-fields: headers to log via MDC (so you can see them in logs
+  sleuth:
+    propagation:
+      type: w3c
+    baggage:
+      remote-fields: X-Correlation-Id
+      correlation-fields: X-Correlation-Id
+
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      auto-offset-reset: earliest
+      group-id: email-group
+      properties:
+        spring.json.trusted.packages: "*"
+        group.initial.rebalance.delay.ms: 3
+        fetch.max.wait.ms: 500
+        max.poll.records: 100
+        isolation.level: read_committed
+    producer:
+      acks: all
+      retries: 3
+      properties:
+        linger.ms: 10
+        batch.size: 16384
+        compression.type: gzip
+
+    properties:
+      security.protocol: SASL_SSL
+      sasl.mechanism: PLAIN
+      sasl.jaas.config: org.apache.kafka.common.security.plain.PlainLoginModule required username="user" password="pass";
+
+
+logging:
+  level:
+    root: INFO
+    org.springframework.cloud.sleuth: DEBUG
+    org:
+      apache:
+        kafka:
+          clients:
+            NetworkClient: ERROR

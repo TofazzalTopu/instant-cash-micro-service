@@ -15,8 +15,8 @@ eureka:
 spring:
   application:
     name: AUTHENTICATION-SERVICE
-#    zipkin:
-#      base-url: http://127.0.0.1:9411/zipkin/
+  #    zipkin:
+  #      base-url: http://127.0.0.1:9411/zipkin/
   cloud:
     discovery:
       enabled: true
@@ -25,12 +25,20 @@ spring:
         locator:
           enabled: true
           lowerCaseServiceId: true
-#    loadbalancer:
-#      ribbon:
-#        enabled: false
+  #    loadbalancer:
+  #      ribbon:
+  #        enabled: false
   #    loadbalancer:
   #      zone: default
 
+  #remote-fields: headers to propagate across services
+  #correlation-fields: headers to log via MDC (so you can see them in logs
+  sleuth:
+    propagation:
+      type: w3c
+    baggage:
+      remote-fields: X-Correlation-Id
+      correlation-fields: X-Correlation-Id
 
 
   datasource:
@@ -56,6 +64,7 @@ spring:
     spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
 
 
+
 #Actuator configuration
 management:
   endpoints:
@@ -76,6 +85,11 @@ logging:
     org.springframework.cloud.gateway: DEBUG
     #For loadbalancer
     org.springframework.cloud.loadbalancer: DEBUG
+    org:
+      apache:
+        kafka:
+          clients:
+            NetworkClient: ERROR
     reactor.netty: INFO
     #For SQL
 #    org.hibernate.SQL: DEBUG

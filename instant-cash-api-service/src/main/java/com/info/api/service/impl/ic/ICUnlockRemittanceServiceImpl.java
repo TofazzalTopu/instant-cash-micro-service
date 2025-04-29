@@ -1,6 +1,6 @@
 package com.info.api.service.impl.ic;
 
-import com.info.api.constants.Constants;
+import com.info.dto.constants.Constants;
 import com.info.api.dto.ic.APIResponse;
 import com.info.api.dto.ic.ICExchangePropertyDTO;
 import com.info.api.dto.ic.ICUnlockTransactionRequestDTO;
@@ -9,7 +9,6 @@ import com.info.api.entity.ApiTrace;
 import com.info.api.entity.RemittanceData;
 import com.info.api.service.common.ApiTraceService;
 import com.info.api.service.common.RemittanceDataService;
-import com.info.api.service.feignclient.branch.BranchServiceFeignClient;
 import com.info.api.service.ic.ICUnlockRemittanceService;
 import com.info.api.util.ApiUtil;
 import lombok.RequiredArgsConstructor;
@@ -44,10 +43,7 @@ public class ICUnlockRemittanceServiceImpl implements ICUnlockRemittanceService 
     private final RestTemplate restTemplate;
     private final ApiTraceService apiTraceService;
     private final RemittanceDataService remittanceDataService;
-    private final BranchServiceFeignClient branchServiceFeignClient;
 
-    @Value("${INSTANT_CASH_API_USER_ID}")
-    String icUserId;
     @Value("${INSTANT_CASH_API_USER_PASSWORD}")
     String icPassword;
 
@@ -55,7 +51,7 @@ public class ICUnlockRemittanceServiceImpl implements ICUnlockRemittanceService 
     public APIResponse<String> unlockICOutstandingRemittance(String referenceNo, ICExchangePropertyDTO dto) {
         String response = "";
         APIResponse<String> apiResponse = new APIResponse<>();
-        dto.setPassword(generateBase64Hash(icUserId, icPassword));
+        dto.setPassword(icPassword);
 
         if (ApiUtil.isInvalidICProperties(dto, dto.getUnlockUrl())) {
             return createErrorResponse(apiResponse, Constants.EXCHANGE_HOUSE_PROPERTY_NOT_EXIST_FOR_UNLOCK_REMITTANCE);

@@ -1,20 +1,32 @@
 server:
-  port: 8081
+  port: 8083
 
 spring:
   application:
     name: USER-SERVICE
-    zipkin:
-      base-url: http://127.0.0.1:9411/zipkin/
-      enabled: true
+
+  #remote-fields: headers to propagate across services
+  #correlation-fields: headers to log via MDC (so you can see them in logs
+  sleuth:
+    propagation:
+      type: w3c
+    baggage:
+      remote-fields: X-Correlation-Id
+      correlation-fields: X-Correlation-Id
+
   cloud:
     loadbalancer:
       ribbon:
         enabled: false
-  #    loadbalancer:
-  #      zone: default
-  zipkin:
-    base-url: http://127.0.0.1:9411/zipkin/
+    #    loadbalancer:
+    #      zone: default
+
+
+
+
+
+
+
   datasource:
     url: jdbc:h2:mem:user
     username: sa
@@ -22,15 +34,16 @@ spring:
     driverClassName: org.h2.Driver
   jpa:
     spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
-#
-#eureka:
-#  client:
-#    serviceUrl:
-#      defaultZone: http://localhost:8761/eureka
-#    register-with-eureka: true
-#    fetch-registry: true
-#  instance:
-#    hostname: localhost
+
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    hostname: localhost
 
 
 #DEPARTMENT-SERVICE:
@@ -39,9 +52,13 @@ spring:
 
 
 logging:
-  file: E:\Tofazzal\Practice\Spring-cloud-microservice\department-sevice\log\zipkin-microservice.log
   level:
     root: INFO
     org.springframework.cloud.sleuth: DEBUG
+    org:
+      apache:
+        kafka:
+          clients:
+            NetworkClient: ERROR
   logstash:
     destination: localhost:5000

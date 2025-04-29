@@ -26,40 +26,52 @@ spring:
       discovery:
         locator:
           enabled: true
-#          lowerCaseServiceId: true
 
-#      routes:
-#        - id: INSTANT_CASH_API_SERVICE
-#          uri: lb://INSTANT_CASH_API_SERVICE
-#          predicates:
-#            - Path=/apiservice/**
-#          filters:
-#            - name: CircuitBreaker
-#              args:
-#                name: INSTANT_CASH_API_SERVICE
-#                fallbackuri: forward:/instantCashApiServiceFallBackMethod
-#        - id: DEPARTMENT_SERVICE
-#          uri: lb://DEPARTMENT_SERVICE
-#          predicates:
-#            - Path=/departments/**
-#          filters:
-#            - name: CircuitBreaker
-#              args:
-#                name: DEPARTMENT_SERVICE
-#                fallbackuri: forward:/departmentServiceFallBackMethod
-#        - id: USER-SERVICE
-#          uri: lb://USER-SERVICE
-#          predicates:
-#            - Path=/users/**
-#          filters:
-#            - name: CircuitBreaker
-#              args:
-#                name: USER-SERVICE
-#                fallbackuri: forward:/userServiceFallBack
-#        - id : AUTHENTICATION-SERVICE
-#          uri: lb://AUTHENTICATION-SERVICE
-#          predicates:
-#            - Path=/login/
+
+  #remote-fields: headers to propagate across services
+  #correlation-fields: headers to log via MDC (so you can see them in logs
+  sleuth:
+    propagation:
+      type: w3c
+    baggage:
+      remote-fields: X-Correlation-Id
+      correlation-fields: X-Correlation-Id
+      #     lowerCaseServiceId: true
+
+
+
+      #      routes:
+      #        - id: INSTANT_CASH_API_SERVICE
+      #          uri: lb://INSTANT_CASH_API_SERVICE
+      #          predicates:
+      #            - Path=/apiservice/**
+      #          filters:
+      #            - name: CircuitBreaker
+      #              args:
+      #                name: INSTANT_CASH_API_SERVICE
+      #                fallbackuri: forward:/instantCashApiServiceFallBackMethod
+      #        - id: DEPARTMENT_SERVICE
+      #          uri: lb://DEPARTMENT_SERVICE
+      #          predicates:
+      #            - Path=/departments/**
+      #          filters:
+      #            - name: CircuitBreaker
+      #              args:
+      #                name: DEPARTMENT_SERVICE
+      #                fallbackuri: forward:/departmentServiceFallBackMethod
+      #        - id: USER-SERVICE
+      #          uri: lb://USER-SERVICE
+      #          predicates:
+      #            - Path=/users/**
+      #          filters:
+      #            - name: CircuitBreaker
+      #              args:
+      #                name: USER-SERVICE
+      #                fallbackuri: forward:/userServiceFallBack
+      #        - id : AUTHENTICATION-SERVICE
+      #          uri: lb://AUTHENTICATION-SERVICE
+      #          predicates:
+      #            - Path=/login/
       main:
         web-application-type: reactive
 
@@ -83,7 +95,7 @@ authentication:
   enabled: false
 
 logging:
-#  file: E:\Tofazzal\log\remittance-microservice.log
+  #  file: E:\Tofazzal\log\remittance-microservice.log
   level:
     root: INFO
     #For sleuth distributed tracing

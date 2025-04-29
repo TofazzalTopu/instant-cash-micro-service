@@ -1,7 +1,7 @@
 package com.info.api.controller;
 
 import com.info.api.annotation.APIDocumentation;
-import com.info.api.constants.Constants;
+import com.info.dto.constants.Constants;
 import com.info.api.dto.PaymentApiResponse;
 import com.info.api.dto.SearchApiRequest;
 import com.info.api.dto.SearchApiResponse;
@@ -25,7 +25,7 @@ import java.util.List;
 @Validated
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(Constants.API_ENDPOINT)
+@RequestMapping(Constants.INSTANT_CASH)
 @Tag(name = "RMS API", description = "APIs for handling remittance operations")
 public class RmsApiController {
 

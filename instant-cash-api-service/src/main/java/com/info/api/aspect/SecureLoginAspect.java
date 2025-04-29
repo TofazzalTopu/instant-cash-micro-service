@@ -1,6 +1,6 @@
 package com.info.api.aspect;
 
-import com.info.api.constants.Constants;
+import com.info.dto.constants.Constants;
 import com.info.api.dto.ic.APIResponse;
 import com.info.api.service.common.CommonService;
 import com.info.api.util.ParseUtil;

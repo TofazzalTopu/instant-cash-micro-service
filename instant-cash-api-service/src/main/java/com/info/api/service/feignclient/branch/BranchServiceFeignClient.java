@@ -1,6 +1,6 @@
 package com.info.api.service.feignclient.branch;
 
-import com.info.api.constants.Constants;
+import com.info.dto.constants.Constants;
 import com.info.api.dto.RoutingNumberDTO;
 import com.info.api.entity.Branch;
 import com.info.api.entity.MbkBrn;

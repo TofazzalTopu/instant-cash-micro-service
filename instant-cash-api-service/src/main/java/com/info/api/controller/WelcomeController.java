@@ -1,8 +1,7 @@
 package com.info.api.controller;
 
 import com.info.api.annotation.APIDocumentation;
-import com.info.api.aspect.SecureLoginAspect;
-import com.info.api.constants.Constants;
+import com.info.dto.constants.Constants;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;

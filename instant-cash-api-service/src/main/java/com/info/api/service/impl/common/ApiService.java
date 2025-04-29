@@ -1,6 +1,6 @@
 package com.info.api.service.impl.common;
 
-import com.info.api.constants.Constants;
+import com.info.dto.constants.Constants;
 import com.info.api.dto.PaymentApiRequest;
 import com.info.api.dto.PaymentApiResponse;
 import com.info.api.dto.SearchApiRequest;
@@ -38,8 +38,6 @@ public class ApiService {
 
     private static final String X_FORWARDED_FOR = "X-FORWARDED-FOR";
 
-    @Value("${INSTANT_CASH_API_USER_ID}")
-    String icUserId;
     @Value("${INSTANT_CASH_API_USER_PASSWORD}")
     String icPassword;
 
@@ -93,7 +91,7 @@ public class ApiService {
         if (!isValidICTransactionReportBody(report)) return mapInvalidParameters(apiResponse);
         ICExchangePropertyDTO icExchangeProperties = ApiUtil.getICExchangeProperties();
         if (icExchangeProperties.getExchangeCode().equals(report.getExchcode())) {
-            icExchangeProperties.setPassword(generateBase64Hash(icUserId, icPassword));
+            icExchangeProperties.setPassword(icPassword);
             return icTransactionReportService.fetchICTransactionReport(icExchangeProperties, report);
         }
 
@@ -105,7 +103,7 @@ public class ApiService {
         apiResponse.setApiStatus(Constants.API_STATUS_VALID);
         ICExchangePropertyDTO icExchangeProperties = ApiUtil.getICExchangeProperties();
         if (icExchangeProperties.getExchangeCode().equals(exchcode)) {
-            icExchangeProperties.setPassword(generateBase64Hash(icUserId, icPassword));
+            icExchangeProperties.setPassword(icPassword);
             return icRetrievePaymentStatusService.getPaymentStatus(icExchangeProperties, reference);
         }
         return apiResponse;

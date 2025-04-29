@@ -1,6 +1,6 @@
 package com.info.api.util;
 
-import com.info.api.constants.Constants;
+import com.info.dto.constants.Constants;
 import com.info.api.dto.ic.ICBankDetailsDTO;
 import com.info.api.dto.ic.ICBeneficiaryDTO;
 import com.info.api.dto.ic.ICOutstandingTransactionDTO;

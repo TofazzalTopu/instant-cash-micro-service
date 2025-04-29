@@ -2,7 +2,7 @@ package com.info.api.service.impl.ic;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.info.api.constants.Constants;
+import com.info.dto.constants.Constants;
 import com.info.api.dto.PaymentApiRequest;
 import com.info.api.dto.PaymentApiResponse;
 import com.info.api.entity.ApiTrace;

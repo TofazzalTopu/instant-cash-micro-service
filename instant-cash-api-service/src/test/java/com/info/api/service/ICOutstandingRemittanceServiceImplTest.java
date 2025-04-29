@@ -1,6 +1,6 @@
 package com.info.api.service;
 
-import com.info.api.constants.Constants;
+import com.info.dto.constants.Constants;
 import com.info.api.dto.ic.ICExchangePropertyDTO;
 import com.info.api.dto.ic.ICOutstandingRemittanceDTO;
 import com.info.api.dto.ic.ICOutstandingTransactionDTO;

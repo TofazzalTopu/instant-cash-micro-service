@@ -1,6 +1,6 @@
 package com.info.api.util;
 
-import com.info.api.constants.Constants;
+import com.info.dto.constants.Constants;
 import com.info.api.dto.PaymentApiResponse;
 import com.info.api.dto.ic.APIResponse;
 import org.slf4j.Logger;

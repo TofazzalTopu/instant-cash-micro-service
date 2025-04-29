@@ -1,7 +1,7 @@
 package com.info.api.dto.ic;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.info.api.constants.Constants;
+import com.info.dto.constants.Constants;
 import lombok.*;
 
 @Data

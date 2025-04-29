@@ -1,7 +1,7 @@
 package com.info.api.controller;
 
 import com.info.api.annotation.APIDocumentation;
-import com.info.api.constants.Constants;
+import com.info.dto.constants.Constants;
 import com.info.api.dto.ic.APIResponse;
 import com.info.api.dto.ic.ICPaymentStatusDTO;
 import com.info.api.service.impl.common.ApiService;
@@ -20,7 +20,7 @@ import javax.validation.constraints.NotBlank;
 @CrossOrigin
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(Constants.API_ENDPOINT + Constants.INSTANT_CASH)
+@RequestMapping(Constants.INSTANT_CASH)
 @Tag(name = "Instant Cash", description = "APIs for handling Instant Cash remittance operations")
 public class InstantCashController {
 

@@ -1,7 +1,7 @@
 package com.info.api.service.impl.common;
 
 
-import com.info.api.constants.Constants;
+import com.info.dto.constants.Constants;
 import com.info.api.entity.ApiTrace;
 import com.info.api.dto.PaymentApiRequest;
 import com.info.api.dto.PaymentApiResponse;
@@ -14,11 +14,15 @@ import com.info.api.util.ObjectConverter;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.*;
+
+import static com.info.dto.constants.Constants.*;
 
 
 @Service
@@ -29,11 +33,13 @@ public class ApiTraceServiceImpl implements ApiTraceService {
     private final ApiTraceRepository apiTraceRepository;
 
     @Override
+    @Cacheable(value = CACHE_NAME_API_TRACE, key = "#apiTraceId")
     public Optional<ApiTrace> findById(Long apiTraceId) {
         return apiTraceRepository.findById(apiTraceId);
     }
 
     @Override
+    @CachePut(value = CACHE_NAME_API_TRACE, key = "#apiTrace.id")
     public ApiTrace save(ApiTrace apiTrace) {
         try {
             return apiTraceRepository.save(apiTrace);
@@ -210,6 +216,7 @@ public class ApiTraceServiceImpl implements ApiTraceService {
     }
 
     @Override
+    @Cacheable(value = CACHE_NAME_API_TRACE, key = "T(java.util.Objects).hash(#tranNo, #requestType)")
     public Optional<ApiTrace> findByTranNo(String tranNo, String requestType) {
         return apiTraceRepository.findByTranNo(tranNo, requestType);
     }

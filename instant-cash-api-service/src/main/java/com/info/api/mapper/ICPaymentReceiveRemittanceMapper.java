@@ -1,6 +1,6 @@
 package com.info.api.mapper;
 
-import com.info.api.constants.Constants;
+import com.info.dto.constants.Constants;
 import com.info.api.dto.PaymentApiRequest;
 import com.info.api.dto.SearchApiResponse;
 import com.info.api.entity.ApiTrace;

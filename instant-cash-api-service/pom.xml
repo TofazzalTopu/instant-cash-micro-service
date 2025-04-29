@@ -53,6 +53,25 @@
 	</profiles>
 	<dependencies>
 		<dependency>
+			<groupId>com.info</groupId>
+			<artifactId>common-dto</artifactId>
+			<version>0.0.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.info</groupId>
+			<artifactId>kafka</artifactId>
+			<version>0.0.1</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.info</groupId>
+			<artifactId>redis</artifactId>
+			<version>0.0.1</version>
+		</dependency>
+
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
@@ -125,20 +144,6 @@
 			<version>7.3</version>
 		</dependency>
 		<!--Distributed tracing dependencies end-->
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-redis</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-cache</artifactId>
-		</dependency>
-<!--		<dependency>-->
-<!--			<groupId>io.lettuce.core</groupId>-->
-<!--			<artifactId>lettuce-core</artifactId>-->
-<!--		</dependency>-->
-
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

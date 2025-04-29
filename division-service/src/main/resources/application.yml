@@ -1,25 +1,41 @@
 server:
   port: 8084
 
-#eureka:
-#  client:
-#    serviceUrl:
-#      defaultZone: http://localhost:8761/eureka
-#  instance:
-#    hostname: localhost
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    hostname: localhost
 
 spring:
   application:
-    name: Division Service
-#    zipkin:
-#      base-url: http://127.0.0.1:9411/zipkin/
-#      enabled: true
+    name: DIVISION-SERVICE
+  #    zipkin:
+  #      base-url: http://127.0.0.1:9411/zipkin/
+  #      enabled: true
   cloud:
     loadbalancer:
       ribbon:
         enabled: false
   #    loadbalancer:
   #      zone: default
+
+
+
+
+  #remote-fields: headers to propagate across services
+  #correlation-fields: headers to log via MDC (so you can see them in logs
+  sleuth:
+    propagation:
+      type: w3c
+    baggage:
+      remote-fields: X-Correlation-Id
+      correlation-fields: X-Correlation-Id
+
+
+
+
   datasource:
     url: jdbc:h2:mem:mydb
     username: sa
@@ -28,6 +44,30 @@ spring:
   jpa:
     spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
 
+  redis:
+    host: localhost
+    port: 6379
+    password: null
+    timeout: 2000
+    database: 0
+    ssl: false
+    lettuce:
+      pool:
+        max-active: 8
+        max-wait: -1ms
+        min-idle: 0
+        max-idle: 8
+
 
 logging:
-  file: E:\Tofazzal\Practice\Spring-cloud-microservice\department-sevice\log\zipkin-microservice.log
+  level:
+    root: INFO
+    #For sleuth distributed tracing
+    org.springframework.cloud.sleuth: DEBUG
+    #For gateway routes
+    org.springframework.cloud.gateway: DEBUG
+    org:
+      apache:
+        kafka:
+          clients:
+            NetworkClient: ERROR

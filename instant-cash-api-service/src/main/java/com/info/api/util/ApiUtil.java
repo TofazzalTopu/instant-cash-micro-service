@@ -1,6 +1,6 @@
 package com.info.api.util;
 
-import com.info.api.constants.Constants;
+import com.info.dto.constants.Constants;
 import com.info.api.dto.ic.ICExchangePropertyDTO;
 import com.info.api.dto.ria.RiaExchangePropertyDTO;
 import com.info.api.entity.ExchangeHouseProperty;
@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-import static com.info.api.constants.RemittanceDataStatus.*;
+import static com.info.dto.constants.RemittanceDataStatus.*;
 
 
 public class ApiUtil {
@@ -35,7 +35,7 @@ public class ApiUtil {
     public static final String IC_AGENT_ID = "IC_AGENT_ID";
     public static final String IC_PAYMENT_API_AGENT_ID = "IC_PAYMENT_API_AGENT_ID";
     public static final String IC_TRANSACTION_REPORT_API = "IC_TRANSACTION_REPORT_API";
-    public static final String IC_PAYMENT_USER_ID = "IC_PAYMENT_USER_ID";
+    public static final String IC_USER_ID = "IC_USER_ID";
 
     public static final String RIA_API_VERSION = "RIA_API_VERSION";
     public static final String RIA_AGENT_ID = "RIA_AGENT_ID";
@@ -158,8 +158,8 @@ public class ApiUtil {
                 case IC_TRANSACTION_REPORT_API:
                     icDto.setTransactionReportUrl(e.getKeyValue());
                     break;
-                case IC_PAYMENT_USER_ID:
-                    icDto.setIcPaymentUserId(e.getKeyValue());
+                case IC_USER_ID:
+                    icDto.setIcUserId(e.getKeyValue());
                     break;
             }
         });

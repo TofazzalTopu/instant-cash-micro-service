@@ -1,7 +1,7 @@
 package com.info.api.service.impl.ic;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.info.api.constants.Constants;
+import com.info.dto.constants.Constants;
 import com.info.api.dto.PaymentApiResponse;
 import com.info.api.dto.SearchApiRequest;
 import com.info.api.dto.SearchApiResponse;
@@ -49,9 +49,6 @@ public class ICPaymentReceiveServiceImpl implements ICPaymentReceiveService {
 
     @Value("${INSTANT_CASH_API_USER_PASSWORD}")
     String icPassword;
-
-    @Value("${INSTANT_CASH_API_USER_RECEIVE_PAYMENT_API_USER_ID}")
-    String icPaymentUserId;
 
     @Override
     public SearchApiResponse paymentReceive(@NotBlank ICExchangePropertyDTO dto, SearchApiRequest searchApiRequest) {
@@ -112,8 +109,6 @@ public class ICPaymentReceiveServiceImpl implements ICPaymentReceiveService {
         searchApiResponse.setReference(searchApiRequest.getPinno());
         searchApiResponse.setOriginalRequest(searchApiRequest.getPinno());
         searchApiResponse.setExchCode(dto.getExchangeCode());
-        dto.setIcPaymentUserId(icPaymentUserId);
-        dto.setPassword(generateBase64Hash(icPaymentUserId, icPassword));
         return searchApiResponse;
     }
 

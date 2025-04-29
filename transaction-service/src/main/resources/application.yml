@@ -1,0 +1,64 @@
+server:
+  port: 8088
+
+spring:
+  application:
+    name: TRANSACTION-SERVICE
+
+
+
+  cloud:
+    loadbalancer:
+      ribbon:
+        enabled: false
+  #    loadbalancer:
+  #      zone: default
+
+  datasource:
+    url: jdbc:h2:mem:user
+    username: sa
+    password: password
+    driverClassName: org.h2.Driver
+  jpa:
+    spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
+
+
+  #remote-fields: headers to propagate across services
+  #correlation-fields: headers to log via MDC (so you can see them in logs
+  sleuth:
+    propagation:
+      type: w3c
+    baggage:
+      remote-fields: X-Correlation-Id
+      correlation-fields: X-Correlation-Id
+
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    hostname: localhost
+
+
+#DEPARTMENT-SERVICE:
+#  ribbon:
+#    listOfservers: localhost:8082,localhost:8085,localhost:8086
+
+
+logging:
+  level:
+    root: INFO
+    org.springframework.cloud.sleuth: DEBUG
+    org:
+      apache:
+        kafka:
+          clients:
+            NetworkClient: ERROR
+  logstash:
+    destination: localhost:5000
+
+
+

@@ -24,9 +24,9 @@ spring:
 
   #Cloud loadBalancer
   cloud:
-#    loadbalancer:
-#      ribbon:
-#        enabled: true
+    #    loadbalancer:
+    #      ribbon:
+    #        enabled: true
     #    loadbalancer:
     #      zone: default
     discovery:
@@ -35,7 +35,20 @@ spring:
       discovery:
         locator:
           enabled: true
-#          lowerCaseServiceId: true
+  #          lowerCaseServiceId: true
+
+
+
+
+  #remote-fields: headers to propagate across services
+  #correlation-fields: headers to log via MDC (so you can see them in logs
+  sleuth:
+    propagation:
+      type: w3c
+    baggage:
+      remote-fields: X-Correlation-Id
+      correlation-fields: X-Correlation-Id
+
 
   # datasource configuration
   datasource:
@@ -60,7 +73,7 @@ spring:
 
 
   jpa:
-#    show_sql: true
+    #    show_sql: true
     hibernate:
       ddl-auto: none
     properties:
@@ -72,10 +85,15 @@ spring:
         order_updates: true
         jdbc.batch_versioned_data: true
         format_sql: true
-#        generate_statistics: true
+        #        generate_statistics: true
         cache:
           use_second_level_cache: false
 #          region.factory_class: org.hibernate.cache.jcache.JCacheRegionFactory
+
+
+
+
+
 
 feign:
   client:
@@ -84,19 +102,7 @@ feign:
         connectTimeout: 5000
         readTimeout: 5000
 
-  redis:
-    host: localhost
-    port: 6379
-    password: null
-    timeout: 2000
-    database: 0
-    ssl: false
-    lettuce:
-      pool:
-        max-active: 8
-        max-wait: -1ms
-        min-idle: 0
-        max-idle: 8
+
 
 #Actuator configuration
 management:
@@ -109,7 +115,7 @@ management:
       show-details: always
 
 logging:
-#  file: E:\Tofazzal\log\remittance-microservice.log
+  #  file: E:\Tofazzal\log\remittance-microservice.log
   level:
     root: INFO
     #For sleuth distributed tracing
@@ -118,6 +124,11 @@ logging:
     org.springframework.cloud.gateway: DEBUG
     #For loadbalancer
     org.springframework.cloud.loadbalancer: DEBUG
+    org:
+      apache:
+        kafka:
+          clients:
+            NetworkClient: ERROR
     reactor.netty: INFO
     #For SQL
 #    org.hibernate.SQL: DEBUG
@@ -150,11 +161,9 @@ running:
 EXCHANGE_HOUSE_BRANCH_USER: CBSRMS
 EXCHANGE_HOUSE_BRANCH_USER_DEVICE_ID: HOST
 
-INSTANT_CASH_API_USER_ID: BD00002622
-INSTANT_CASH_API_USER_RECEIVE_PAYMENT_API_USER_ID: BD90000000
 INSTANT_CASH_API_USER_PASSWORD: CGE982
 
-  #Scheduler on/off
+#Scheduler on/off
 IS_INSTANT_CASH_API_SCHEDULER_ENABLED: true
 IS_RIA_API_SCHEDULER_ENABLED: true
 API_SCHEDULER_INTERVAL: 10000

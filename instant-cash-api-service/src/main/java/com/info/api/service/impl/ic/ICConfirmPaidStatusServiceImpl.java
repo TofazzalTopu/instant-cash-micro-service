@@ -10,7 +10,7 @@ import com.info.api.service.common.ApiTraceService;
 import com.info.api.service.common.RemittanceDataService;
 import com.info.api.service.ic.ICConfirmPaidStatusService;
 import com.info.api.util.ApiUtil;
-import com.info.api.constants.Constants;
+import com.info.dto.constants.Constants;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import static com.info.api.constants.RemittanceDataStatus.NEW_STATUS_Y;
+import static com.info.dto.constants.RemittanceDataStatus.NEW_STATUS_Y;
 import static com.info.api.entity.RemittanceData.COMPLETED;
 import static com.info.api.util.ObjectConverter.convertObjectToString;
 

@@ -2,7 +2,7 @@ package com.info.api.util;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.info.api.constants.Constants;
+import com.info.dto.constants.Constants;
 import com.info.api.dto.PaymentApiRequest;
 import com.info.api.dto.PaymentApiResponse;
 import com.info.api.dto.ic.APIResponse;

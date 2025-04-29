@@ -25,8 +25,6 @@ public class InstantCashAPIProcessor {
     private final ICOutstandingRemittanceService icOutstandingRemittanceService;
     private final ICConfirmTransactionStatusService icConfirmTransactionStatusService;
 
-    @Value("${INSTANT_CASH_API_USER_ID}")
-    String icUserId;
     @Value("${INSTANT_CASH_API_USER_PASSWORD}")
     String icPassword;
 
@@ -35,7 +33,7 @@ public class InstantCashAPIProcessor {
         logger.info("InstantCashAPIProcessor started..........");
         try {
             ICExchangePropertyDTO icExchangePropertyDTO = ApiUtil.getICExchangeProperties();
-            icExchangePropertyDTO.setPassword(generateBase64Hash(icUserId, icPassword));
+            icExchangePropertyDTO.setPassword(icPassword);
             if(ApiUtil.isInValidICExchangeProperties(icExchangePropertyDTO)) return;
 
             List<RemittanceData> remittanceDataList = icOutstandingRemittanceService.fetchICOutstandingRemittance(icExchangePropertyDTO);

@@ -6,6 +6,7 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
@@ -13,7 +14,13 @@ import org.springframework.web.client.RestTemplate;
 @EnableEurekaClient
 @EnableFeignClients
 @SpringBootApplication
+@ComponentScan(basePackages = {"com.info.api", "com.info.redis", "com.info.kafka"})
 public class InstantCashApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(InstantCashApplication.class, args);
+	}
+
 
 	@Bean
 	public RestTemplate restTemplate() {
@@ -22,10 +29,5 @@ public class InstantCashApplication {
 		factory.setReadTimeout(5000);     // read timeout (ms)
 		return new RestTemplate(factory);
 	}
-
-	public static void main(String[] args) {
-		SpringApplication.run(InstantCashApplication.class, args);
-	}
-
 
 }

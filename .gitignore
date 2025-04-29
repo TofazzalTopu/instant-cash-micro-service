@@ -1,0 +1,7 @@
+/.idea/
+
+/.idea/
+!**/HELP.md
+/kafka-service/mvnw
+/kafka-service/mvnw.cmd
+/.idea/

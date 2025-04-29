@@ -1,8 +1,12 @@
 package com.info.auth.controller;
 
-import com.info.auth.model.Credential;
+import com.info.auth.annotation.APIDocumentation;
+import com.info.auth.dto.Credential;
+import com.info.dto.constants.Constants;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,13 +15,16 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
 @RestController
-@RequestMapping("/login")
+@RequestMapping(Constants.LOGIN)
+@Tag(name = "Login APIs", description = "APIs for handling Auth operations")
 public class AuthController {
 
     @Value("${jwt.secret}")
     private String secret;
 
     @GetMapping
+    @APIDocumentation
+    @Operation(description = "Generate token.")
     public String getToken() {
         System.out.println("inside auth login");
         return Jwts.builder()
@@ -30,6 +37,7 @@ public class AuthController {
     }
 
     @PostMapping
+    @APIDocumentation
     public String getTokenProvidingUsernameAndPassword(@RequestBody Credential credential) {
         System.out.println("inside getTokenProvidingUsernameAndPassword");
         return Jwts.builder()

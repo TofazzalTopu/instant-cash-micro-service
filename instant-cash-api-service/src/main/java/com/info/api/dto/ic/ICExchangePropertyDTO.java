@@ -1,6 +1,7 @@
 package com.info.api.dto.ic;
 
 
+import com.info.api.util.PasswordUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,6 +22,9 @@ public class ICExchangePropertyDTO {
     private String paymentReceiveUrl;
     private String statusUrl;
     private String transactionReportUrl;
-    private String icPaymentUserId;
+    private String icUserId;
 
+    public String getPassword() {
+        return PasswordUtil.generateBase64Hash(icUserId, password);
+    }
 }

@@ -1,7 +1,7 @@
 package com.info.api.controller;
 
 import com.info.api.annotation.APIDocumentation;
-import com.info.api.constants.Constants;
+import com.info.dto.constants.Constants;
 import com.info.api.dto.product.PaginatedResponse;
 import com.info.api.dto.product.ProductDTO;
 import com.info.api.entity.Product;

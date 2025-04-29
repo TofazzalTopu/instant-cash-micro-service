@@ -1,9 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/department-sevice/pom.xml" />
+        <option value="$PROJECT_DIR$/kafka-service/pom.xml" />
+        <option value="$PROJECT_DIR$/redis-service/pom.xml" />
+        <option value="$PROJECT_DIR$/app-dto/pom.xml" />
+        <option value="$PROJECT_DIR$/bank-service/pom.xml" />
+        <option value="$PROJECT_DIR$/division-service/pom.xml" />
+        <option value="$PROJECT_DIR$/eureka-server/pom.xml" />
+        <option value="$PROJECT_DIR$/user-service/pom.xml" />
+        <option value="$PROJECT_DIR$/instant-cash-api-service/pom.xml" />
+        <option value="$PROJECT_DIR$/authentication-server/pom.xml" />
+        <option value="$PROJECT_DIR$/common-sdk/pom.xml" />
+        <option value="$PROJECT_DIR$/common-dto/pom.xml" />
+        <option value="$PROJECT_DIR$/accounts-service/pom.xml" />
+        <option value="$PROJECT_DIR$/transaction-service/pom.xml" />
+        <option value="$PROJECT_DIR$/api-gateway-service/pom.xml" />
       </list>
     </option>
   </component>

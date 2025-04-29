@@ -1,0 +1,121 @@
+server:
+  port: 8085
+
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    hostname: localhost
+
+spring:
+  application:
+    name: DEPARTMENT-SERVICE
+    sleuth:
+      tracing:
+        enabled: true
+      sampler:
+        probability: 1.0 # Always sample traces for development/testing
+
+
+
+  #remote-fields: headers to propagate across services
+  #correlation-fields: headers to log via MDC (so you can see them in logs
+  sleuth:
+    propagation:
+      type: w3c
+    baggage:
+      remote-fields: X-Correlation-Id
+      correlation-fields: X-Correlation-Id
+
+
+
+  #    zipkin:
+  #      base-url: http://127.0.0.1:9411/zipkin/
+  #      enabled: true
+  datasource:
+    url: jdbc:h2:mem:mydb
+    username: sa
+    password: password
+    driverClassName: org.h2.Driver
+  jpa:
+    spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
+
+
+  #Cloud loadBalancer
+  cloud:
+    loadbalancer:
+      ribbon:
+        enabled: true
+    #    loadbalancer:
+    #      zone: default
+    discovery:
+      enabled: true
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lowerCaseServiceId: true
+
+resilience4j:
+  bulkhead:
+    instances:
+      rateLimiterEventsExample:
+        max-concurrent-calls: 5
+        max-wait-duration: 0
+  circuitbreaker:
+    instances:
+      rateLimiterEventsExample:
+        automatic-transition-from-open-to-half-open-enabled: true
+        failure-rate-threshold: 80
+        minimum-number-of-calls: 5
+        permitted-number-of-calls-in-half-open-state: 4
+        sliding-window-size: 10
+        sliding-window-type: COUNT_BASED
+        wait-duration-in-open-state: 10s
+  ratelimiter:
+    instances:
+      rateLimiterExample:
+        limit-for-period: 3
+        limit-refresh-period: 10s
+        timeout-duration: 1s
+  retry:
+    instances:
+      rateLimiterEventsExample:
+        enable-exponential-backoff: true
+        max-attempts: 5
+        retry-exceptions: org.springframework.web.client.ResourceAccessException
+        wait-duration: 2s
+      retryEventsExample:
+        enable-exponential-backoff: true
+        max-attempts: 5
+        retry-exceptions: org.springframework.web.client.ResourceAccessException
+        wait-duration: 2s
+      retryExample:
+        enable-exponential-backoff: true
+        max-attempts: 5
+        retry-exceptions: org.springframework.web.client.ResourceAccessException
+        wait-duration: 2s
+  timelimiter:
+    instances:
+      rateLimiterEventsExample:
+        cancel-running-future: false
+        timeout-duration: 1s
+
+
+logging:
+  level:
+    root: INFO
+    #For sleuth distributed tracing
+    org.springframework.cloud.sleuth: DEBUG
+    #For gateway routes
+    org.springframework.cloud.gateway: DEBUG
+    org:
+      apache:
+        kafka:
+          clients:
+            NetworkClient: ERROR
+#  logstash:
+#    destination: localhost:5000
