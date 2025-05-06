@@ -19,8 +19,10 @@ public class Constants {
     public static final String USERS = "/users";
     public static final String BRANCH = "/branch";
     public static final String MBK_BRN = "/mbk-brn";
+    public static final String ACCOUNTS = "/accounts";
     public static final String DIVISION = "/divisions";
     public static final String DEPARTMENT = "/departments";
+    public static final String TRANSACTION = "/transactions";
 
     public static final String API_ENDPOINT = API + API_VERSION_V1;
     public static final String PRODUCTS_API_ENDPOINT = API_ENDPOINT + "/products";
@@ -123,6 +125,8 @@ public class Constants {
     public static final String CACHE_NAME_AUTH = "auth";
     public static final String CACHE_NAME_MBKBRN = "mbkBrn";
     public static final String CACHE_NAME_BRACNH = "branch";
+    public static final String CACHE_NAME_ACCOUNT = "account";
+    public static final String CACHE_NAME_ACCOUNT_BALANCE = "accountBalance";
     public static final String CACHE_NAME_DIVISION = "division";
     public static final String CACHE_NAME_INSTANT_CASH = "instantCash";
     public static final String CACHE_NAME_DEPARTMENT = "department";

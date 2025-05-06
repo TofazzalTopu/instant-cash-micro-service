@@ -22,6 +22,14 @@ spring:
   jpa:
     spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
 
+  camunda:
+    bpm:
+      database:
+        schema-update: true
+      admin-user:
+        id: admin
+        password: admin
+
 
   #remote-fields: headers to propagate across services
   #correlation-fields: headers to log via MDC (so you can see them in logs

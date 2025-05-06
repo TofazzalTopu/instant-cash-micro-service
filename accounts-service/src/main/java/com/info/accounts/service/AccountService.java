@@ -1,9 +1,9 @@
 package com.info.accounts.service;
 
-import com.info.accounts.entity.Account;
+import com.info.dto.account.AccountDTO;
 
 public interface AccountService {
 
-    Account save(Account account);
-    Account findById(Long id);
+    AccountDTO save(AccountDTO account);
+    AccountDTO findById(Long id);
 }

@@ -45,6 +45,7 @@
       <module name="auth-server" options="-parameters" />
       <module name="authentication-server" options="-parameters" />
       <module name="bank-service" options="-parameters" />
+      <module name="common-dto" options="-parameters" />
       <module name="department" options="-parameters" />
       <module name="department-service" options="-parameters" />
       <module name="division" options="-parameters" />

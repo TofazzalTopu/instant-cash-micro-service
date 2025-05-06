@@ -63,6 +63,12 @@ public class GatewayConfiguration {
                 .route("AUTHENTICATION-SERVICE", r -> r.path(AUTH + "/**")
                         .uri("lb://AUTHENTICATION-SERVICE"))
 
+                .route("TRANSACTION-SERVICE", r -> r.path(TRANSACTION + "/**")
+                        .uri("lb://TRANSACTION-SERVICE"))
+
+                .route("ACCOUNT-SERVICE", r -> r.path(ACCOUNTS + "/**")
+                        .uri("lb://ACCOUNT-SERVICE"))
+
                 .build();
     }
 
