@@ -21,6 +21,7 @@ public class Constants {
     public static final String MBK_BRN = "/mbk-brn";
     public static final String DIVISION = "/divisions";
     public static final String DEPARTMENT = "/departments";
+    public static final String TRANSACTION = "/transactions";
 
     public static final String API_ENDPOINT = API + API_VERSION_V1;
     public static final String PRODUCTS_API_ENDPOINT = API_ENDPOINT + "/products";
