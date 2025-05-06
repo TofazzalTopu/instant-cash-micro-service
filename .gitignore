@@ -5,3 +5,8 @@
 /kafka-service/mvnw
 /kafka-service/mvnw.cmd
 /.idea/
+/instant-cash-api-read-replica-service/.gitattributes
+/instant-cash-api-read-replica-service/mvnw
+/instant-cash-api-read-replica-service/HELP.md
+/instant-cash-api-read-replica-service/mvnw.cmd
+/instant-cash-api-read-replica-service/.mvn/

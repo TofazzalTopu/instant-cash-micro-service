@@ -49,3 +49,15 @@ logging:
             NetworkClient: ERROR
   logstash:
     destination: localhost:5000
+
+
+
+  #Actuator configuration
+  management:
+    endpoints:
+      web:
+        exposure:
+          include: "*"
+    endpoint:
+      health:
+        show-details: always

@@ -2,6 +2,7 @@ package com.info.api.service.common;
 
 
 import com.info.api.entity.RemittanceData;
+import com.info.dto.remittance.RemittanceDataDTO;
 
 import java.util.Date;
 import java.util.List;
@@ -20,6 +21,11 @@ public interface RemittanceDataService {
     List<String> findAllByExchangeCodeAndReferenceNumbers(String exchangeCode, List<String> referenceNumbers);
 
     Optional<RemittanceData> findByExchangeCodeAndReferenceNo(String exchangeCode, String referenceNo);
+    Optional<RemittanceDataDTO> findBydReferenceNo(String referenceNo);
+
+    Optional<RemittanceDataDTO> saveAndRemittanceData(String referenceNo);
+    Optional<RemittanceDataDTO> updateRemittanceData(String referenceNo, String status);
+
     Optional<RemittanceData> findByExchangeCodeAndReferenceNoAndProcessStatusesIsNot(String exchangeCode, String referenceNo, List<String> processStatuses);
 
     List<RemittanceData> findAllByExchangeCodeAndReferenceNo(String exchangeCode, String referenceNo);

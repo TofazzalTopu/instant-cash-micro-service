@@ -1,0 +1,170 @@
+server:
+  port: 8082
+
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    hostname: localhost
+    prefer-ip-address: true
+
+
+spring:
+  application:
+    name: INSTANT-CASH-API-READ-REPLICA-SERVICE
+    sleuth:
+      tracing:
+        enabled: true
+      sampler:
+        probability: 1.0 # Always sample traces for development/testing
+
+
+  #Cloud loadBalancer
+  cloud:
+    #    loadbalancer:
+    #      ribbon:
+    #        enabled: true
+    #    loadbalancer:
+    #      zone: default
+    discovery:
+      enabled: true
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+  #          lowerCaseServiceId: true
+
+
+
+
+  #remote-fields: headers to propagate across services
+  #correlation-fields: headers to log via MDC (so you can see them in logs
+  sleuth:
+    propagation:
+      type: w3c
+    baggage:
+      remote-fields: X-Correlation-Id
+      correlation-fields: X-Correlation-Id
+
+
+  # datasource configuration
+  datasource:
+    url: jdbc:oracle:thin:@10.99.53.30:1521:UATDB7
+    username: RBL_MOCK7
+    password: RBL_MOCK7
+    driver-class-name: oracle.jdbc.OracleDriver
+    hikari:
+      minimum-idle: 5
+      auto-commit: true
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      maximum-pool-size: 20
+      connection-timeout: 30000
+      pool-name: HikariPool_INSTANT_CASH_API_REPLICA_SERVICE
+      data-source-properties:
+        cachePrepStmts: true
+        prepStmtCacheSize: 250
+        prepStmtCacheSqlLimit: 2048
+        useServerPrepStmts: true
+        useLocalSessionState: true
+
+
+  jpa:
+    #    show_sql: true
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.Oracle12cDialect
+        jdbc:
+          batch_size: 25
+        order_inserts: true
+        order_updates: true
+        jdbc.batch_versioned_data: true
+#        format_sql: true
+        #        generate_statistics: true
+        cache:
+          use_second_level_cache: false
+#          region.factory_class: org.hibernate.cache.jcache.JCacheRegionFactory
+
+
+
+
+
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
+
+
+
+#Actuator configuration
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  #  file: E:\Tofazzal\log\remittance-microservice.log
+  level:
+#    root: INFO
+    #For sleuth distributed tracing
+    org.springframework.cloud.sleuth: DEBUG
+    #For gateway routes
+    org.springframework.cloud.gateway: DEBUG
+    #For loadbalancer
+    org.springframework.cloud.loadbalancer: DEBUG
+    org:
+      apache:
+        kafka:
+          clients:
+            NetworkClient: ERROR
+    reactor.netty: INFO
+    #For SQL
+    org.hibernate.SQL: OFF
+    org.hibernate.type.descriptor.sql: ERROR
+
+#logging:
+#  level:
+#    org:
+#    hibernate:
+#      SQL: debug
+#      type: trace
+#    com:
+#    info:
+#      api:
+#      controller: debug
+#      service: debug
+#      repository: debug
+
+
+bank:
+  code: 001
+  name: Bank Limited
+
+
+running:
+  server: uat
+
+
+#RIA_CASH_EXCHANGE_HOUSE_PROPERTIES
+EXCHANGE_HOUSE_BRANCH_USER: CBSRMS
+EXCHANGE_HOUSE_BRANCH_USER_DEVICE_ID: HOST
+
+INSTANT_CASH_API_USER_PASSWORD: CGE982
+
+#Scheduler on/off
+IS_INSTANT_CASH_API_SCHEDULER_ENABLED: true
+IS_RIA_API_SCHEDULER_ENABLED: true
+API_SCHEDULER_INTERVAL: 10000
+

@@ -21,3 +21,15 @@ spring:
 #    fetch-registry: true
 #  instance:
 #    hostname: localhost
+
+
+
+#Actuator configuration
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always

@@ -1,6 +1,7 @@
 package com.info.bank.controller;
 
-import com.info.bank.annotation.APIDocumentation;
+import com.info.bank.annotation.GetAPIDocumentation;
+import com.info.bank.annotation.PostApiDocumentation;
 import com.info.bank.dto.CollectionAPIResponse;
 import com.info.bank.entity.User;
 import com.info.bank.service.UserService;
@@ -31,8 +32,8 @@ public class UserController {
     String port;
 
     @GetMapping
-    @APIDocumentation
-    @Operation(description = "List of all user.")
+    @GetAPIDocumentation
+    @Operation(summary = "List of all user.")
     public ResponseEntity<CollectionAPIResponse<User>> findAll() {
         List<User> users = userService.findAll();
         if (users.isEmpty()) return ResponseEntity.notFound().build();
@@ -40,23 +41,23 @@ public class UserController {
     }
 
     @PostMapping
-    @APIDocumentation
-    @Operation(description = "Create an user.")
+    @PostApiDocumentation
+    @Operation(summary = "Create an user.")
     public ResponseEntity<User> save(@RequestBody User user) throws URISyntaxException {
         log.info("Request user body: {}", user);
         return ResponseEntity.created(new URI("/")).body(userService.save(user));
     }
 
-    @APIDocumentation
+    @GetAPIDocumentation
     @GetMapping(value = "/{id}")
-    @Operation(description = "Find an user by id.")
+    @Operation(summary = "Find an user by id.")
     public ResponseEntity<UserDepartmentDTO> findById(@PathVariable Long id) {
         return ResponseEntity.ok().body(userService.findUserAndDepartmentByIdWithRestApi(id));
     }
 
-    @APIDocumentation
+    @GetAPIDocumentation
     @GetMapping(value = "/{id}/feign-client")
-    @Operation(description = "Find an user by id using feign client.")
+    @Operation(summary = "Find an user by id using feign client.")
     public ResponseEntity<UserDepartmentDTO> findUserById(@PathVariable Long id) {
         return ResponseEntity.ok().body(userService.findUserAndDepartmentById(id));
     }

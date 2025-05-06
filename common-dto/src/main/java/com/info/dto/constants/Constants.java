@@ -11,7 +11,8 @@ public class Constants {
     public static final String API_VERSION_V1 = "v1";
     public static final String API_VERSION_V2 = "v2";
     public static final String API = "/api/";
-    public static final String INSTANT_CASH = "/instant-cash";
+    public static final String INSTANT_CASH_READ = "/instant-cash/read";
+    public static final String INSTANT_CASH_WRITE = "/instant-cash/write";
     public static final String PRODUCTS = API + "/products";
     public static final String AUTH = "/auth";
     public static final String LOGIN = "/login";
@@ -19,8 +20,10 @@ public class Constants {
     public static final String USERS = "/users";
     public static final String BRANCH = "/branch";
     public static final String MBK_BRN = "/mbk-brn";
+    public static final String ACCOUNTS = "/accounts";
     public static final String DIVISION = "/divisions";
     public static final String DEPARTMENT = "/departments";
+    public static final String TRANSACTION = "/transactions";
 
     public static final String API_ENDPOINT = API + API_VERSION_V1;
     public static final String PRODUCTS_API_ENDPOINT = API_ENDPOINT + "/products";
@@ -106,13 +109,23 @@ public class Constants {
     public static final String UNABLE_TO_CREATE_API_TRACE = "Unable to create ApiTrace!";
     public static final String DUPLICATE_REMITTANCE = "Reference already exist.";
 
+    public static final String TRANSACTION_POSTING_FAILED = "Transaction Posting failed!";
+    public static final String TRANSACTION_VALIDATION_FAILED = "Transaction Validation failed!";
 
 
 
 
+    public static final String TOPIC_SMS_OUTPUT = "kafka-topic-sms-output";
     public static final String TOPIC_SMS = "kafka-topic-sms";
     public static final String TOPIC_EMAIL = "kafka-topic-email";
+    public static final String TOPIC_EMAIL_RETRY_5S = "kafka-topic-email-retry-5s";
+    public static final String TOPIC_EMAIL_RETRY_30S = "kafka-topic-email-retry-30s";
+    public static final String TOPIC_EMAIL_RETRY_30S_DLQ = "kafka-topic-email-retry-DLQ";
     public static final String KAFKA_GROUP_EMAIL = "kafka-group-email";
+    public static final String KAFKA_GROUP_EMAIL_RETRY_5S = "kafka-group-email-retry-5s";
+    public static final String KAFKA_GROUP_EMAIL_RETRY_30S = "kafka-group-email-retry-30s";
+    public static final String KAFKA_GROUP_EMAIL_RETRY_DQL = "kafka-group-email-DLQ";
+    public static final String KAFKA_LISTENER_CONTAINER_FACTORY = "kafkaListenerContainerFactory";
     public static final String KAFKA_LISTENER_CONTAINER_FACTORY_EMAIL_DATA = "KafkaListenerEmailDataContainerFactory";
     public static final String KAFKA_LISTENER_CONTAINER_FACTORY_STRING = "strKafkaListener";
 
@@ -123,6 +136,8 @@ public class Constants {
     public static final String CACHE_NAME_AUTH = "auth";
     public static final String CACHE_NAME_MBKBRN = "mbkBrn";
     public static final String CACHE_NAME_BRACNH = "branch";
+    public static final String CACHE_NAME_ACCOUNT = "account";
+    public static final String CACHE_NAME_ACCOUNT_BALANCE = "accountBalance";
     public static final String CACHE_NAME_DIVISION = "division";
     public static final String CACHE_NAME_INSTANT_CASH = "instantCash";
     public static final String CACHE_NAME_DEPARTMENT = "department";

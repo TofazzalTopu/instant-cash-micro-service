@@ -13,6 +13,8 @@ eureka:
 
 
 spring:
+#  active:
+#    profiles: dev
   application:
     name: INSTANT-CASH-API-SERVICE
     sleuth:
@@ -84,7 +86,7 @@ spring:
         order_inserts: true
         order_updates: true
         jdbc.batch_versioned_data: true
-        format_sql: true
+        #        format_sql: true
         #        generate_statistics: true
         cache:
           use_second_level_cache: false
@@ -115,9 +117,10 @@ management:
       show-details: always
 
 logging:
-  #  file: E:\Tofazzal\log\remittance-microservice.log
+  file:
+    path: E:/Tofazzal/Practice/micro-service-log
   level:
-    root: INFO
+    #    root: INFO
     #For sleuth distributed tracing
     org.springframework.cloud.sleuth: DEBUG
     #For gateway routes
@@ -131,8 +134,8 @@ logging:
             NetworkClient: ERROR
     reactor.netty: INFO
     #For SQL
-#    org.hibernate.SQL: DEBUG
-#    org.hibernate.type.descriptor.sql: TRACE
+    org.hibernate.SQL: OFF
+    org.hibernate.type.descriptor.sql: ERROR
 
 #logging:
 #  level:

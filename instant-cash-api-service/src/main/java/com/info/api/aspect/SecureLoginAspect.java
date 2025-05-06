@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import static com.info.api.util.ObjectConverter.convertObjectToString;
 import static com.info.api.util.ParseUtil.isNullOrEmpty;
 
-@Aspect
+//@Aspect
 @Component
 @RequiredArgsConstructor
 public class SecureLoginAspect {

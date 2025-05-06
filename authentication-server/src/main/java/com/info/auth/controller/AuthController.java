@@ -1,6 +1,7 @@
 package com.info.auth.controller;
 
-import com.info.auth.annotation.APIDocumentation;
+import com.info.auth.annotation.GetAPIDocumentation;
+import com.info.auth.annotation.PostApiDocumentation;
 import com.info.auth.dto.Credential;
 import com.info.dto.constants.Constants;
 import io.jsonwebtoken.Jwts;
@@ -23,8 +24,8 @@ public class AuthController {
     private String secret;
 
     @GetMapping
-    @APIDocumentation
-    @Operation(description = "Generate token.")
+    @GetAPIDocumentation
+    @Operation(summary = "Generate token.")
     public String getToken() {
         System.out.println("inside auth login");
         return Jwts.builder()
@@ -37,7 +38,7 @@ public class AuthController {
     }
 
     @PostMapping
-    @APIDocumentation
+    @PostApiDocumentation
     public String getTokenProvidingUsernameAndPassword(@RequestBody Credential credential) {
         System.out.println("inside getTokenProvidingUsernameAndPassword");
         return Jwts.builder()

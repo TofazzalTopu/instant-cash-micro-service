@@ -22,6 +22,14 @@ spring:
   jpa:
     spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
 
+  camunda:
+    bpm:
+      database:
+        schema-update: true
+      admin-user:
+        id: admin
+        password: admin
+
 
   #remote-fields: headers to propagate across services
   #correlation-fields: headers to log via MDC (so you can see them in logs
@@ -31,6 +39,40 @@ spring:
     baggage:
       remote-fields: X-Correlation-Id
       correlation-fields: X-Correlation-Id
+
+  circuitbreaker:
+    resilience4j:
+      instances:
+        transaction-service-cb:
+          registerHealthIndicator: true
+          slidingWindowSize: 10
+          failureRateThreshold: 50
+          waitDurationInOpenState: 5s
+          permittedNumberOfCallsInHalfOpenState: 3
+          slowCallDurationThreshold: 10s
+          slowCallRateThreshold: 50
+          minimumNumberOfCalls: 5
+          timeoutDuration: 60s
+        instant-cash-api-service-read-cb:
+          registerHealthIndicator: true
+          slidingWindowSize: 10
+          failureRateThreshold: 50
+          waitDurationInOpenState: 5s
+          permittedNumberOfCallsInHalfOpenState: 3
+          slowCallDurationThreshold: 10s
+          slowCallRateThreshold: 50
+          minimumNumberOfCalls: 5
+          timeoutDuration: 60s
+        instant-cash-api-service-write-cb:
+          registerHealthIndicator: true
+          slidingWindowSize: 10
+          failureRateThreshold: 50
+          waitDurationInOpenState: 5s
+          permittedNumberOfCallsInHalfOpenState: 3
+          slowCallDurationThreshold: 10s
+          slowCallRateThreshold: 50
+          minimumNumberOfCalls: 5
+          timeoutDuration: 60s
 
 
 eureka:
@@ -51,7 +93,7 @@ eureka:
 logging:
   level:
     root: INFO
-    org.springframework.cloud.sleuth: DEBUG
+    #    org.springframework.cloud.sleuth: DEBUG
     org:
       apache:
         kafka:
@@ -61,4 +103,13 @@ logging:
     destination: localhost:5000
 
 
+#Actuator configuration
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
 

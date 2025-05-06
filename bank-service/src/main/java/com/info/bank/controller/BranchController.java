@@ -1,6 +1,7 @@
 package com.info.bank.controller;
 
-import com.info.bank.annotation.APIDocumentation;
+import com.info.bank.annotation.GetAPIDocumentation;
+import com.info.bank.annotation.PostApiDocumentation;
 import com.info.bank.dto.CollectionAPIResponse;
 import com.info.bank.dto.RoutingNumberDTO;
 import com.info.bank.entity.Branch;
@@ -31,8 +32,8 @@ public class BranchController {
     String port;
 
     @GetMapping
-    @APIDocumentation
-    @Operation(description = "List of all Branch.")
+    @GetAPIDocumentation
+    @Operation(summary = "List of all Branch.")
     public ResponseEntity<CollectionAPIResponse<Branch>> findAll() {
         List<Branch> branchs = branchService.findAll();
         if (branchs.isEmpty()) return ResponseEntity.notFound().build();
@@ -40,23 +41,23 @@ public class BranchController {
     }
 
     @PostMapping
-    @APIDocumentation
-    @Operation(description = "Create an Branch.")
+    @PostApiDocumentation
+    @Operation(summary = "Create an Branch.")
     public ResponseEntity<?> save(@RequestBody Branch branch) throws URISyntaxException {
         log.info("Request Branch body: {}", branch);
         return ResponseEntity.created(new URI("/")).body(branchService.save(branch));
     }
 
-    @APIDocumentation
+    @GetAPIDocumentation
     @GetMapping(value = "/{id}")
-    @Operation(description = "Find an Branch by id.")
+    @Operation(summary = "Find an Branch by id.")
     public ResponseEntity<Branch> findById(@PathVariable Long id) {
         return ResponseEntity.ok().body(branchService.findById(id));
     }
 
-    @APIDocumentation
+    @PostApiDocumentation
     @PostMapping(value = "/by-routing-numbers")
-    @Operation(description = "Find an Branch By Routing Numbers.")
+    @Operation(summary = "Find an Branch By Routing Numbers.")
     public ResponseEntity<?> findBranchByRoutingNumbers(@RequestBody RoutingNumberDTO routingNumberDTO) {
         return ResponseEntity.ok().body(branchService.findAllByRoutingNumber(routingNumberDTO.getRoutingNumbers()));
     }

@@ -43,3 +43,15 @@ spring:
     baggage:
       remote-fields: X-Correlation-Id
       correlation-fields: X-Correlation-Id
+
+
+
+#Actuator configuration
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always

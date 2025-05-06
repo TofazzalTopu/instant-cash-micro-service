@@ -20,6 +20,8 @@
         <option value="$PROJECT_DIR$/accounts-service/pom.xml" />
         <option value="$PROJECT_DIR$/transaction-service/pom.xml" />
         <option value="$PROJECT_DIR$/api-gateway-service/pom.xml" />
+        <option value="$PROJECT_DIR$/department-service/pom.xml" />
+        <option value="$PROJECT_DIR$/instant-cash-api-read-replica-service/pom.xml" />
       </list>
     </option>
   </component>

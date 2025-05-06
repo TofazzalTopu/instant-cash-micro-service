@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment # Kubernetes resource kind we are creating
+metadata:
+  name: transaction-service
+spec:
+  selector:
+    matchLabels:
+      app: transaction-service
+  replicas: 3 # Number of replicas that will be created for this deployment
+  template:
+    metadata:
+      labels:
+        app: transaction-service
+    spec:
+      containers:
+        - name: transaction-service
+          image: tofazzal/transaction-service.jar:latest
+          # Image that will be used to containers in the cluster
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8088
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8088
+            initialDelaySeconds: 10
+            periodSeconds: 15
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8088
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            failureThreshold: 3
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+
+
+---
+apiVersion: v1 # Kubernetes API version
+kind: Service # Kubernetes resource kind we are creating
+metadata: # Metadata of the resource kind we are creating
+  name: transaction-service-svc
+spec:
+  selector:
+    app: transaction-service
+  ports:
+    - protocol: "TCP"
+      port: 8088 # The port that the service is running on in the cluster
+      targetPort: 8088 # The port exposed by the service
+  type: NodePort # type of the service.

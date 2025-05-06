@@ -1,6 +1,9 @@
 package com.info.accounts.entity;
 
+import com.sun.istack.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -8,13 +11,25 @@ import java.util.Date;
 
 @Data
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "ACCOUNTS")
 public class AccountBalance implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @EmbeddedId
-    protected AccountKey accountKey;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    private Long id;
+
+    @Column(name = "ACNTS_ENTITY_NUM")
+    private int entityNumber;
+
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "ACNTS_INTERNAL_ACNUM", nullable = false)
+    private long internalAccountNumber;
 
     @Column(name = "ACCOUNT_NAME")
     private String accountName;

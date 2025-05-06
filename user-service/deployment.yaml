@@ -18,9 +18,28 @@ spec:
           # Image that will be used to containers in the cluster
           imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: 8081
-# The port that the container is running on in the cluster
-
+            - containerPort: 8083
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8083
+            initialDelaySeconds: 10
+            periodSeconds: 15
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8083
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            failureThreshold: 3
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
 ---
 apiVersion: v1 # Kubernetes API version
 kind: Service # Kubernetes resource kind we are creating
@@ -31,6 +50,6 @@ spec:
     app: user-service
   ports:
     - protocol: "TCP"
-      port: 8081 # The port that the service is running on in the cluster
-      targetPort: 8081 # The port exposed by the service
+      port: 8083 # The port that the service is running on in the cluster
+      targetPort: 8083 # The port exposed by the service
   type: NodePort # type of the service.

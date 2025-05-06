@@ -1,6 +1,6 @@
 package com.info.api.controller;
 
-import com.info.api.annotation.APIDocumentation;
+import com.info.api.annotation.GetAPIDocumentation;
 import com.info.dto.constants.Constants;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -19,15 +19,15 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping(Constants.API_ENDPOINT + Constants.INSTANT_CASH)
+@RequestMapping(Constants.INSTANT_CASH_WRITE)
 @Tag(name = "Welcome Controller", description = "Welcome Controller")
 public class WelcomeController {
     private final Logger logger = LoggerFactory.getLogger(WelcomeController.class);
 
 
-    @APIDocumentation
+    @GetAPIDocumentation
     @GetMapping(value = "/welcome")
-    @Operation(description = "Welcome Message.")
+    @Operation(summary = "Welcome Message.")
     public ResponseEntity<String> welcome() {
         logger.info("Welcome to the Instant Cash API!");
         return ResponseEntity.ok().body("App is running successfully!");

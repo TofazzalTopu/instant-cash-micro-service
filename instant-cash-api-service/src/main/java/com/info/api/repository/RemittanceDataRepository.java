@@ -2,10 +2,12 @@ package com.info.api.repository;
 
 import com.info.api.entity.RemittanceData;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Component;
 
+import javax.persistence.LockModeType;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -14,8 +16,11 @@ import java.util.Optional;
 public interface RemittanceDataRepository extends JpaRepository<RemittanceData, Long> {
 
 
-    //    @Lock(LockModeType.READ)
+//    @Lock(LockModeType.READ)
+    Optional<RemittanceData> findByReferenceNo(String referenceNo);
+
     Optional<RemittanceData> findByExchangeCodeAndReferenceNo(String exchangeCode, String referenceNo);
+
     Optional<RemittanceData> findByExchangeCodeAndReferenceNoAndProcessStatusIsNotIn(String exchangeCode, String referenceNo, List<String> processStatuses);
 
     List<RemittanceData> findAllByExchangeCodeAndReferenceNo(String exchangeCode, String referenceNo);

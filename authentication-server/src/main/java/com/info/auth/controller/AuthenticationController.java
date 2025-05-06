@@ -1,6 +1,7 @@
 package com.info.auth.controller;
 
-import com.info.auth.annotation.APIDocumentation;
+import com.info.auth.annotation.GetAPIDocumentation;
+import com.info.auth.annotation.PostApiDocumentation;
 import com.info.auth.dto.JwtRequest;
 import com.info.auth.dto.JwtResponse;
 import com.info.auth.dto.RefreshTokenRequest;
@@ -45,9 +46,9 @@ public class AuthenticationController {
     }
 
 
-    @APIDocumentation
+    @PostApiDocumentation
     @PostMapping(value = "/authenticate")
-    @Operation(description = "Authenticate login user.")
+    @Operation(summary = "Authenticate login user.")
     public ResponseEntity<JwtResponse> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
 
         authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
@@ -61,9 +62,9 @@ public class AuthenticationController {
         return ResponseEntity.ok(new JwtResponse(accessToken, refresh_token));
     }
 
-    @APIDocumentation
+    @PostApiDocumentation
     @PostMapping(value = "/register")
-    @Operation(description = "Register user.")
+    @Operation(summary = "Register user.")
     public ResponseEntity<User> saveUser(@RequestBody UserDTO user) {
         logger.info("user: {}", user);
         return ResponseEntity.ok(userService.save(user));
@@ -79,9 +80,9 @@ public class AuthenticationController {
         }
     }
 
-    @APIDocumentation
+    @GetAPIDocumentation
     @PostMapping("/refresh")
-    @Operation(description = "Generate token using refresh token.")
+    @Operation(summary = "Generate token using refresh token.")
     public ResponseEntity<?> refresh(@RequestBody RefreshTokenRequest request) {
         if (!jwtTokenUtil.isTokenValid(request.getRefreshToken()))
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid refresh token");

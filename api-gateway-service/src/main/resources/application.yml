@@ -27,6 +27,14 @@ spring:
         locator:
           enabled: true
 
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
+  hystrix:
+    enabled: false
 
   #remote-fields: headers to propagate across services
   #correlation-fields: headers to log via MDC (so you can see them in logs
@@ -104,3 +112,15 @@ logging:
 #    org.springframework.cloud.gateway: DEBUG
 jwt:
   secret: VHKJMNnbfhbsjkdbVJHVkhbJBKJBsmfnbngygiyguFYVHJbkjnjnsjdnlkfn
+
+
+
+#Actuator configuration
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always

@@ -2,6 +2,8 @@ apiVersion: apps/v1
 kind: Deployment # Kubernetes resource kind we are creating
 metadata:
   name: instant-cash-api
+  labels:
+    app: instant-cash-api
 spec:
   selector:
     matchLabels:
@@ -14,12 +16,34 @@ spec:
     spec:
       containers:
         - name: instant-cash-api
-          image: tofazzal/instant-cash-api.jar:latest
+          image: tofazzal/tofazzal/instant-cash-api.jar:latest
           # Image that will be used to containers in the cluster
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
-# The port that the container is running on in the cluster
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 15
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            failureThreshold: 3
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+
+
 
 ---
 apiVersion: v1 # Kubernetes API version

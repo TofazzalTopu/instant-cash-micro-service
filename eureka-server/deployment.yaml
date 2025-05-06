@@ -19,7 +19,29 @@ spec:
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8761
-# The port that the container is running on in the cluster
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8761
+            initialDelaySeconds: 10
+            periodSeconds: 15
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8761
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            failureThreshold: 3
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+
+
 
 ---
 apiVersion: v1 # Kubernetes API version

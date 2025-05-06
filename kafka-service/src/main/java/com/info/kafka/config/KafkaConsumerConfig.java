@@ -3,6 +3,7 @@ package com.info.kafka.config;
 import com.info.dto.constants.Constants;
 import com.info.dto.kafka.EmailData;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.apache.kafka.common.TopicPartition;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -12,7 +13,11 @@ import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.listener.DeadLetterPublishingRecoverer;
+import org.springframework.kafka.listener.DefaultErrorHandler;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
+import org.springframework.util.backoff.FixedBackOff;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -44,7 +49,7 @@ public class KafkaConsumerConfig {
 
     @Bean
     public ConcurrentKafkaListenerContainerFactory<String, EmailData> KafkaListenerEmailDataContainerFactory() {
-        ConcurrentKafkaListenerContainerFactory factory = new ConcurrentKafkaListenerContainerFactory();
+        ConcurrentKafkaListenerContainerFactory<String, EmailData> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
         return factory;
     }
@@ -61,8 +66,29 @@ public class KafkaConsumerConfig {
 
     @Bean
     public ConcurrentKafkaListenerContainerFactory<String, String> strKafkaListener() {
-        ConcurrentKafkaListenerContainerFactory factory = new ConcurrentKafkaListenerContainerFactory();
+        ConcurrentKafkaListenerContainerFactory<String,String> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(strConsumerFactory());
+        return factory;
+    }
+
+    @Bean
+    public DeadLetterPublishingRecoverer recoverer(KafkaTemplate<String, EmailData> template) {
+        return new DeadLetterPublishingRecoverer(template,
+                (record, ex) -> new TopicPartition(record.topic() + ".DLQ", record.partition()));
+    }
+
+    @Bean
+    public DefaultErrorHandler errorHandler(DeadLetterPublishingRecoverer recoverer) {
+        FixedBackOff fixedBackOff = new FixedBackOff(0L, 0); // No retries in primary consumer
+        return new DefaultErrorHandler(recoverer, fixedBackOff);
+    }
+
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, EmailData> kafkaListenerContainerFactory(ConsumerFactory<String, EmailData> consumerFactory, DefaultErrorHandler errorHandler) {
+        ConcurrentKafkaListenerContainerFactory<String, EmailData> factory =
+                new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(consumerFactory);
+        factory.setCommonErrorHandler(errorHandler);
         return factory;
     }
 

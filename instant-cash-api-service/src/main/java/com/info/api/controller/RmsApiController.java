@@ -1,6 +1,7 @@
 package com.info.api.controller;
 
-import com.info.api.annotation.APIDocumentation;
+import com.info.api.annotation.GetAPIDocumentation;
+import com.info.api.annotation.PostApiDocumentation;
 import com.info.dto.constants.Constants;
 import com.info.api.dto.PaymentApiResponse;
 import com.info.api.dto.SearchApiRequest;
@@ -25,30 +26,30 @@ import java.util.List;
 @Validated
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(Constants.INSTANT_CASH)
+@RequestMapping(Constants.INSTANT_CASH_WRITE)
 @Tag(name = "RMS API", description = "APIs for handling remittance operations")
 public class RmsApiController {
 
     private final ApiService apiService;
 
-    @APIDocumentation
+    @GetAPIDocumentation
     @GetMapping(value = "/remittance")
-    @Operation(description = "Searches remittance data by reference PIN and exchange code.")
+    @Operation(summary = "Searches remittance data by reference PIN and exchange code.")
     public ResponseEntity<SearchApiResponse> searchRemittance(@RequestHeader @NotBlank String userId, @RequestHeader String password, @RequestParam String bruserid, @RequestParam String brcode, @RequestParam String exchcode, @RequestParam String pinno, HttpServletRequest request) {
         SearchApiRequest searchApiRequest = new SearchApiRequest(bruserid, brcode, exchcode, pinno, null);
         return ResponseEntity.ok(apiService.searchRemittance(searchApiRequest, request));
     }
 
-    @APIDocumentation
+    @PostApiDocumentation
     @PutMapping(value = "/remittance")
-    @Operation(description = "Marks a remittance as paid using the payload provided.")
+    @Operation(summary = "Marks a remittance as paid using the payload provided.")
     public ResponseEntity<PaymentApiResponse> payRemittance(@RequestHeader String userId, @RequestHeader String password, @RequestBody String data, HttpServletRequest request) {
         return ResponseEntity.ok(apiService.payRemittance(data, request));
     }
 
-    @APIDocumentation
+    @GetAPIDocumentation
     @GetMapping(value = "/transaction-report")
-    @Operation(description = "Generates transaction reports filtered by exchange code and date range.")
+    @Operation(summary = "Generates transaction reports filtered by exchange code and date range.")
     public ResponseEntity<APIResponse<List<ICTransactionReportDTO>>> transactionReport(@RequestHeader @NotBlank String userId, @RequestHeader @NotBlank String password,
                                                                                        @RequestParam @NotBlank String exchcode, @RequestParam @NotBlank String fromDate,
                                                                                        @RequestParam @NotBlank String toDate, @RequestParam @Min(1) int pageNumber, @RequestParam @Min(1) int pageSize, HttpServletRequest request) {

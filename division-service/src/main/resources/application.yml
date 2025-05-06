@@ -71,3 +71,15 @@ logging:
         kafka:
           clients:
             NetworkClient: ERROR
+
+
+
+#Actuator configuration
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always

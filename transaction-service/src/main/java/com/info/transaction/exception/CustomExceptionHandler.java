@@ -1,7 +1,5 @@
 package com.info.transaction.exception;
 
-import com.info.api.exception.InvalidRequestException;
-import com.info.api.exception.ResourceNotFoundException;
 import io.github.resilience4j.ratelimiter.RequestNotPermitted;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
