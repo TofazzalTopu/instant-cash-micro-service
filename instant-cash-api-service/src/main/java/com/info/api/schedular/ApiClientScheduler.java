@@ -26,7 +26,7 @@ public class ApiClientScheduler {
     @Value("${IS_INSTANT_CASH_API_SCHEDULER_ENABLED:true}")
     boolean isICSchedulerEnabled;
 
-    @Scheduled(fixedDelayString = "${API_SCHEDULER_INTERVAL}", initialDelay = 1000)
+//    @Scheduled(fixedDelayString = "${API_SCHEDULER_INTERVAL}", initialDelay = 1000)
     public void apiClientScheduler() {
         ExecutorService instantCashExecutor = Executors.newFixedThreadPool(1);
         try {

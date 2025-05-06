@@ -1,6 +1,7 @@
 package com.info.bank.controller;
 
-import com.info.bank.annotation.APIDocumentation;
+import com.info.bank.annotation.GetAPIDocumentation;
+import com.info.bank.annotation.PostApiDocumentation;
 import com.info.bank.dto.CollectionAPIResponse;
 import com.info.bank.dto.RoutingNumberDTO;
 import com.info.bank.entity.MbkBrn;
@@ -32,8 +33,8 @@ public class MbkBrnController {
     String port;
 
     @GetMapping
-    @APIDocumentation
-    @Operation(description = "List of all MbkBrn.")
+    @GetAPIDocumentation
+    @Operation(summary = "List of all MbkBrn.")
     public ResponseEntity<CollectionAPIResponse<MbkBrn>> findAll() {
         List<MbkBrn> branchs = mbkBrnService.findAll();
         if (branchs.isEmpty()) return ResponseEntity.notFound().build();
@@ -41,23 +42,23 @@ public class MbkBrnController {
     }
 
     @PostMapping
-    @APIDocumentation
-    @Operation(description = "Create an MbkBrn.")
+    @PostApiDocumentation
+    @Operation(summary = "Create an MbkBrn.")
     public ResponseEntity<?> save(@RequestBody MbkBrn mbkBrn) throws URISyntaxException {
         log.info("Request MbkBrn body: {}", mbkBrn);
         return ResponseEntity.created(new URI("/")).body(mbkBrnService.save(mbkBrn));
     }
 
-    @APIDocumentation
+    @PostApiDocumentation
     @PostMapping(value = "/mbkBrnKey")
-    @Operation(description = "Find an MbkBrn by id.")
+    @Operation(summary = "Find an MbkBrn by id.")
     public ResponseEntity<MbkBrn> findById(@RequestBody MbkBrnKey mbkBrnKey) {
         return ResponseEntity.ok().body(mbkBrnService.findById(mbkBrnKey));
     }
 
-    @APIDocumentation
+    @PostApiDocumentation
     @PostMapping(value = "/by-routing-numbers")
-    @Operation(description = "Find an MbkBrn By Routing Numbers.")
+    @Operation(summary = "Find an MbkBrn By Routing Numbers.")
     public ResponseEntity<?> findMbkBrnByRoutingNumbers(@RequestBody RoutingNumberDTO routingNumberDTO) {
         return ResponseEntity.ok().body(mbkBrnService.findAllByMbkbrnKeyBranchRoutingIn(routingNumberDTO.getRoutingNumbers()));
     }

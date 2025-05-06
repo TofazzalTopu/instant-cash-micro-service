@@ -1,6 +1,6 @@
 package com.info.api.controller;
 
-import com.info.api.annotation.APIDocumentation;
+import com.info.api.annotation.GetAPIDocumentation;
 import com.info.dto.constants.Constants;
 import com.info.api.dto.product.PaginatedResponse;
 import com.info.api.dto.product.ProductDTO;
@@ -35,8 +35,8 @@ public class ProductController {
 
 
     @GetMapping
-    @APIDocumentation
-    @Operation(description = "List of products with pagination and sorting.")
+    @GetAPIDocumentation
+    @Operation(summary = "List of products with pagination and sorting.")
     public ResponseEntity<PaginatedResponse<ProductDTO>> getProducts(
             @RequestParam(defaultValue = "1") @Min(1) int page,
             @RequestParam(defaultValue = "10") @Min(1) int size,
@@ -55,16 +55,16 @@ public class ProductController {
         return ResponseEntity.ok(response);
     }
 
-    @APIDocumentation
+    @GetAPIDocumentation
     @GetMapping("/process")
-    @Operation(description = "Start product operation.")
+    @Operation(summary = "Start product operation.")
     private ResponseEntity<?> process() {
         return ResponseEntity.ok(productService.executorServiceExample());
     }
 
-    @APIDocumentation
+    @GetAPIDocumentation
     @GetMapping("/list")
-    @Operation(description = "List of products.")
+    @Operation(summary = "List of products.")
     public List<Product> getAllProducts() {
         return productService.saveProductList();
     }

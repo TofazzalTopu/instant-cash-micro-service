@@ -1,8 +1,10 @@
 package com.info.api.service.impl.common;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.info.api.entity.RemittanceData;
 import com.info.api.repository.RemittanceDataRepository;
 import com.info.api.service.common.RemittanceDataService;
+import com.info.dto.remittance.RemittanceDataDTO;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +24,7 @@ public class RemittanceDataServiceImpl implements RemittanceDataService {
 
     private static final Logger logger = LoggerFactory.getLogger(RemittanceDataServiceImpl.class);
 
+    private final ObjectMapper objectMapper;
     private final RemittanceDataRepository remittanceDataRepository;
 
 
@@ -59,6 +62,31 @@ public class RemittanceDataServiceImpl implements RemittanceDataService {
     @Cacheable(value = CACHE_NAME_REMITTANCE_DATA, key = "'optional_' + T(java.util.Objects).hash(#exchangeCode, #referenceNo)")
     public Optional<RemittanceData> findByExchangeCodeAndReferenceNo(String exchangeCode, String referenceNo) {
         return remittanceDataRepository.findByExchangeCodeAndReferenceNo(exchangeCode, referenceNo);
+    }
+
+    @Override
+    public Optional<RemittanceDataDTO> findBydReferenceNo(String referenceNo) {
+        return remittanceDataRepository.findByReferenceNo(referenceNo)
+                .map(remittanceData -> objectMapper.convertValue(remittanceData, RemittanceDataDTO.class));
+    }
+    @Override
+    public Optional<RemittanceDataDTO> saveAndRemittanceData(String referenceNo) {
+        Optional<RemittanceData> remittanceDataOptional = remittanceDataRepository.findByReferenceNo(referenceNo);
+        if(remittanceDataOptional.isPresent()) {
+            remittanceDataOptional.get().setProcessStatus("REMITTANCE_DATA_SAVED");
+            remittanceDataRepository.save(remittanceDataOptional.get());
+        }
+        return remittanceDataOptional.map(remittanceData -> objectMapper.convertValue(remittanceData, RemittanceDataDTO.class));
+    }
+
+    @Override
+    public Optional<RemittanceDataDTO> updateRemittanceData(String referenceNo, String status) {
+        Optional<RemittanceData> remittanceDataOptional = remittanceDataRepository.findByReferenceNo(referenceNo);
+        if(remittanceDataOptional.isPresent()) {
+            remittanceDataOptional.get().setProcessStatus(status);
+            remittanceDataRepository.save(remittanceDataOptional.get());
+        }
+        return remittanceDataOptional.map(remittanceData -> objectMapper.convertValue(remittanceData, RemittanceDataDTO.class));
     }
 
     @Override

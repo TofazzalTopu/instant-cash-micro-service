@@ -1,6 +1,7 @@
 package com.info.department.controller;
 
-import com.info.department.annotation.APIDocumentation;
+import com.info.department.annotation.GetAPIDocumentation;
+import com.info.department.annotation.PostApiDocumentation;
 import com.info.department.model.Department;
 import com.info.department.service.DepartmentService;
 import com.info.dto.constants.Constants;
@@ -32,17 +33,17 @@ public class DepartmentController {
 
 
     @PostMapping
-    @APIDocumentation
-    @Operation(description = "Create a Department.")
+    @PostApiDocumentation
+    @Operation(summary = "Create a Department.")
     public ResponseEntity<Department> save(@RequestBody Department department) throws URISyntaxException {
         Department department1 = departmentService.save(department);
         logger.info("Department saved: {}", department1);
         return ResponseEntity.created(new URI("/")).body(department1);
     }
 
+    @GetAPIDocumentation
     @GetMapping("/{id}")
-    @APIDocumentation
-    @Operation(description = "Get Department By Id.")
+    @Operation(summary = "Get Department By Id.")
     public ResponseEntity<Department> findById(@PathVariable Long id) {
         Department department = departmentService.findById(id);
         if (Objects.isNull(department)) department = new Department(id, "Math");

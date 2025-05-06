@@ -11,7 +11,8 @@ public class Constants {
     public static final String API_VERSION_V1 = "v1";
     public static final String API_VERSION_V2 = "v2";
     public static final String API = "/api/";
-    public static final String INSTANT_CASH = "/instant-cash";
+    public static final String INSTANT_CASH_READ = "/instant-cash/read";
+    public static final String INSTANT_CASH_WRITE = "/instant-cash/write";
     public static final String PRODUCTS = API + "/products";
     public static final String AUTH = "/auth";
     public static final String LOGIN = "/login";
@@ -19,8 +20,10 @@ public class Constants {
     public static final String USERS = "/users";
     public static final String BRANCH = "/branch";
     public static final String MBK_BRN = "/mbk-brn";
+    public static final String ACCOUNTS = "/accounts";
     public static final String DIVISION = "/divisions";
     public static final String DEPARTMENT = "/departments";
+    public static final String TRANSACTION = "/transactions";
 
     public static final String API_ENDPOINT = API + API_VERSION_V1;
     public static final String PRODUCTS_API_ENDPOINT = API_ENDPOINT + "/products";
@@ -106,6 +109,8 @@ public class Constants {
     public static final String UNABLE_TO_CREATE_API_TRACE = "Unable to create ApiTrace!";
     public static final String DUPLICATE_REMITTANCE = "Reference already exist.";
 
+    public static final String TRANSACTION_POSTING_FAILED = "Transaction Posting failed!";
+    public static final String TRANSACTION_VALIDATION_FAILED = "Transaction Validation failed!";
 
 
 
@@ -123,6 +128,8 @@ public class Constants {
     public static final String CACHE_NAME_AUTH = "auth";
     public static final String CACHE_NAME_MBKBRN = "mbkBrn";
     public static final String CACHE_NAME_BRACNH = "branch";
+    public static final String CACHE_NAME_ACCOUNT = "account";
+    public static final String CACHE_NAME_ACCOUNT_BALANCE = "accountBalance";
     public static final String CACHE_NAME_DIVISION = "division";
     public static final String CACHE_NAME_INSTANT_CASH = "instantCash";
     public static final String CACHE_NAME_DEPARTMENT = "department";

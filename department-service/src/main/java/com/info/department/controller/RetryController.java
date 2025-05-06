@@ -1,7 +1,7 @@
 package com.info.department.controller;
 
 
-import com.info.department.annotation.APIDocumentation;
+import com.info.department.annotation.GetAPIDocumentation;
 import com.info.department.service.RetryService;
 import com.info.dto.constants.Constants;
 import io.github.resilience4j.retry.annotation.Retry;
@@ -21,14 +21,14 @@ public class RetryController {
     private int attempt = 1;
 
     //Approach -1
-    @APIDocumentation
+    @GetAPIDocumentation
     @GetMapping("/retry")
     public ResponseEntity<?> retry() {
         return ResponseEntity.ok().body(retryService.retryProcessRequest());
     }
 
     //Approach -2
-    @APIDocumentation
+    @GetAPIDocumentation
     @GetMapping("/retryRequest")
     @Retry(name = "retryExample", fallbackMethod = "myApiRetryFallback")
     public ResponseEntity<?> retryRequest() {

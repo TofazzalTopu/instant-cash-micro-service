@@ -1,4 +1,4 @@
-package com.info.api.exception;
+package com.info.transaction.exception;
 
 public class ResourceNotFoundException extends RuntimeException{
     public ResourceNotFoundException(String message) {

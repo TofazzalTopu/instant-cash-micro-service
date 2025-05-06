@@ -1,8 +1,8 @@
 package com.info.department.controller;
 
+import com.info.department.annotation.GetAPIDocumentation;
 import com.info.dto.constants.Constants;
 
-import com.info.department.annotation.APIDocumentation;
 import com.info.department.service.RateLimiterService;
 import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import io.swagger.v3.oas.annotations.Operation;
@@ -20,17 +20,17 @@ public class RateLimiterController {
     @Autowired private RateLimiterService rateLimiterService;
 
 
-    @APIDocumentation
+    @GetAPIDocumentation
     @GetMapping(value = "/myRateLimiter/{input}")
-    @Operation(description = "Rate Limiter Example With Fallback.")
+    @Operation(summary = "Rate Limiter Example With Fallback.")
     @RateLimiter(name = "rateLimiterExample", fallbackMethod = "rateLimiterExampleFallback")
     public ResponseEntity<String> myRateLimiter(@PathVariable String input) {
         return ResponseEntity.ok("Processed: " + input);
     }
 
-    @APIDocumentation
+    @GetAPIDocumentation
     @GetMapping(value = "/rateLimiter")
-    @Operation(description = "Rate Limiter Example With Fallback.")
+    @Operation(summary = "Rate Limiter Example With Fallback.")
     public ResponseEntity<?> rateLimiterProcessRequest() {
         return ResponseEntity.ok().body(rateLimiterService.rateLimiterProcessRequest());
     }

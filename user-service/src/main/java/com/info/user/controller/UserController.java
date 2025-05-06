@@ -4,6 +4,8 @@ import com.info.dto.constants.Constants;
 import com.info.dto.department.DepartmentDTO;
 import com.info.dto.department.UserDepartmentDTO;
 import com.info.dto.user.UserDTO;
+import com.info.user.annotation.GetAPIDocumentation;
+import com.info.user.annotation.PostApiDocumentation;
 import com.info.user.feignClient.DepartmentServiceFeignClient;
 import com.info.user.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -35,19 +37,22 @@ public class UserController {
     String port;
 
     @GetMapping
+    @GetAPIDocumentation
     public String success() {
         return "Success response from user service";
     }
 
     @PostMapping
-    @Operation(description = "Create user.")
+    @PostApiDocumentation
+    @Operation(summary = "Create user.")
     public ResponseEntity<UserDTO> save(@RequestBody UserDTO user) throws URISyntaxException {
         log.info("Request user body: {}", user);
         return ResponseEntity.created(new URI(Constants.USERS)).body(userService.save(user));
     }
 
+    @GetAPIDocumentation
     @GetMapping(value = "/{id}")
-    @Operation(description = "Find user by id.")
+    @Operation(summary = "Get user details by id")
     public ResponseEntity<UserDepartmentDTO> findById(@PathVariable Long id) {
         logger.info("port: {}", port);
         UserDTO userDTO = userService.findById(id);

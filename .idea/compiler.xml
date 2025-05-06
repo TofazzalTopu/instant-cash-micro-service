@@ -7,18 +7,20 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="division" />
-        <module name="instant-cash-api" />
         <module name="authentication-server" />
-        <module name="api-gateway-service" />
         <module name="eureka" />
-        <module name="kafka" />
         <module name="accounts-service" />
-        <module name="transaction-service" />
+        <module name="instant-cash-api-read-replica" />
         <module name="user-service" />
-        <module name="micro-service" />
         <module name="redis" />
         <module name="bank-service" />
+        <module name="division" />
+        <module name="instant-cash-api" />
+        <module name="api-gateway-service" />
+        <module name="kafka" />
+        <module name="transaction-service" />
+        <module name="micro-service" />
+        <module name="department" />
       </profile>
       <profile name="Annotation profile for common-dto" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -31,9 +33,9 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="api" target="11" />
       <module name="app-dto" target="11" />
       <module name="auth-server" target="11" />
-      <module name="department" target="11" />
       <module name="department-service" target="11" />
       <module name="division-service" target="11" />
     </bytecodeTargetLevel>
@@ -41,16 +43,19 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="accounts-service" options="-parameters" />
+      <module name="api" options="-parameters" />
       <module name="api-gateway-service" options="-parameters" />
       <module name="auth-server" options="-parameters" />
       <module name="authentication-server" options="-parameters" />
       <module name="bank-service" options="-parameters" />
+      <module name="common-dto" options="-parameters" />
       <module name="department" options="-parameters" />
       <module name="department-service" options="-parameters" />
       <module name="division" options="-parameters" />
       <module name="division-service" options="-parameters" />
       <module name="eureka" options="-parameters" />
       <module name="instant-cash-api" options="-parameters" />
+      <module name="instant-cash-api-read-replica" options="-parameters" />
       <module name="kafka" options="-parameters" />
       <module name="micro-service" options="-parameters" />
       <module name="redis" options="-parameters" />

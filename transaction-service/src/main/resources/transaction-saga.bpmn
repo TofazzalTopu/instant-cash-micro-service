@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+                  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+                  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+                  xmlns:camunda="http://camunda.org/schema/1.0/bpmn"
+                  id="Definitions_1"
+                  targetNamespace="http://bpmn.io/schema/bpmn">
+
+    <!-- Define Specific Error Codes -->
+    <bpmn:error id="Error_ProcessPayment" name="Process Payment Failed" errorCode="ERROR_PROCESS_PAYMENT"/>
+    <bpmn:error id="Error_ValidateReference" name="Validation Failed" errorCode="ERROR_VALIDATE_REFERENCE"/>
+    <bpmn:error id="Error_FinalizePayment" name="Finalize Payment Failed" errorCode="ERROR_FINALIZE_PAYMENT"/>
+
+    <bpmn:process id="transactionPostingProcess" name="Transaction Posting Process" isExecutable="true">
+
+        <!-- Start Event -->
+        <bpmn:startEvent id="startPosting" name="Start Payment">
+            <bpmn:outgoing>flow1</bpmn:outgoing>
+        </bpmn:startEvent>
+
+        <!-- Process Payment -->
+        <bpmn:sequenceFlow id="flow1" sourceRef="startPosting" targetRef="processPayment"/>
+        <bpmn:serviceTask id="processPayment" name="Process Payment" camunda:delegateExpression="${transactionPostingService}">
+            <bpmn:incoming>flow1</bpmn:incoming>
+            <bpmn:outgoing>flow2</bpmn:outgoing>
+        </bpmn:serviceTask>
+
+        <!-- Boundary Event: Process Payment -->
+        <bpmn:boundaryEvent id="paymentProcessFailed" attachedToRef="processPayment" cancelActivity="true">
+            <bpmn:errorEventDefinition errorRef="Error_ProcessPayment"/>
+        </bpmn:boundaryEvent>
+        <bpmn:sequenceFlow id="flowError1" sourceRef="paymentProcessFailed" targetRef="handleProcessPaymentError"/>
+
+        <bpmn:serviceTask id="handleProcessPaymentError" name="Handle Process Payment Error" camunda:delegateExpression="${handleProcessPaymentErrorService}">
+            <bpmn:incoming>flowError1</bpmn:incoming>
+            <bpmn:outgoing>flowEnd1</bpmn:outgoing>
+        </bpmn:serviceTask>
+        <bpmn:endEvent id="endError1" name="Process Payment Failed">
+            <bpmn:incoming>flowEnd1</bpmn:incoming>
+        </bpmn:endEvent>
+        <bpmn:sequenceFlow id="flowEnd1" sourceRef="handleProcessPaymentError" targetRef="endError1"/>
+
+        <!-- Validate Reference -->
+        <bpmn:sequenceFlow id="flow2" sourceRef="processPayment" targetRef="validateReference"/>
+        <bpmn:serviceTask id="validateReference" name="Validate Reference" camunda:delegateExpression="${remittanceDataService}">
+            <bpmn:incoming>flow2</bpmn:incoming>
+            <bpmn:outgoing>flow3</bpmn:outgoing>
+        </bpmn:serviceTask>
+
+        <!-- Boundary Event: Validate Reference -->
+        <bpmn:boundaryEvent id="validationFailed" attachedToRef="validateReference" cancelActivity="true">
+            <bpmn:errorEventDefinition errorRef="Error_ValidateReference"/>
+        </bpmn:boundaryEvent>
+        <bpmn:sequenceFlow id="flowError2" sourceRef="validationFailed" targetRef="handleValidationError"/>
+
+        <bpmn:serviceTask id="handleValidationError" name="Handle Validation Error" camunda:delegateExpression="${handleValidationErrorService}">
+            <bpmn:incoming>flowError2</bpmn:incoming>
+            <bpmn:outgoing>flowEnd2</bpmn:outgoing>
+        </bpmn:serviceTask>
+        <bpmn:endEvent id="endError2" name="Validation Failed">
+            <bpmn:incoming>flowEnd2</bpmn:incoming>
+        </bpmn:endEvent>
+        <bpmn:sequenceFlow id="flowEnd2" sourceRef="handleValidationError" targetRef="endError2"/>
+
+        <!-- Finalize Payment -->
+        <bpmn:sequenceFlow id="flow3" sourceRef="validateReference" targetRef="finalizePayment"/>
+        <bpmn:serviceTask id="finalizePayment" name="Finalize Payment" camunda:delegateExpression="${paymentService}">
+            <bpmn:incoming>flow3</bpmn:incoming>
+            <bpmn:outgoing>flow4</bpmn:outgoing>
+        </bpmn:serviceTask>
+
+        <!-- Boundary Event: Finalize Payment -->
+        <bpmn:boundaryEvent id="finalizeFailed" attachedToRef="finalizePayment" cancelActivity="true">
+            <bpmn:errorEventDefinition errorRef="Error_FinalizePayment"/>
+        </bpmn:boundaryEvent>
+        <bpmn:sequenceFlow id="flowError3" sourceRef="finalizeFailed" targetRef="handleFinalizeError"/>
+
+        <bpmn:serviceTask id="handleFinalizeError" name="Handle Finalize Error" camunda:delegateExpression="${handleFinalizeErrorService}">
+            <bpmn:incoming>flowError3</bpmn:incoming>
+            <bpmn:outgoing>flowEnd3</bpmn:outgoing>
+        </bpmn:serviceTask>
+        <bpmn:endEvent id="endError3" name="Finalize Failed">
+            <bpmn:incoming>flowEnd3</bpmn:incoming>
+        </bpmn:endEvent>
+        <bpmn:sequenceFlow id="flowEnd3" sourceRef="handleFinalizeError" targetRef="endError3"/>
+
+        <!-- Payment Completed -->
+        <bpmn:sequenceFlow id="flow4" sourceRef="finalizePayment" targetRef="paymentCompleted"/>
+        <bpmn:endEvent id="paymentCompleted" name="Payment Completed">
+            <bpmn:incoming>flow4</bpmn:incoming>
+        </bpmn:endEvent>
+
+    </bpmn:process>
+</bpmn:definitions>
